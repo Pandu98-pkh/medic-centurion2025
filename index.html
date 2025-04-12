@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Dokumentasi Tim Medis</title>
+  <title>MEDIC CENTURION 2025</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
   <!-- Font Awesome for icons -->
@@ -811,9 +811,15 @@
 
       // Navigation
       const navLinks = document.querySelectorAll('.nav-link');
+      // Navigation
       navLinks.forEach(link => {
         link.addEventListener('click', function (e) {
           e.preventDefault();
+
+          // Stop real-time clock if leaving form section
+          if (document.querySelector('.nav-link.active').getAttribute('data-target') === 'form') {
+            stopRealtimeClock();
+          }
 
           // Remove active class from all links
           navLinks.forEach(link => link.classList.remove('active'));
@@ -829,10 +835,16 @@
           // Show the target section
           const targetId = this.getAttribute('data-target');
           document.getElementById(targetId).style.display = 'block';
+
+          // Start real-time clock if entering form section
+          if (targetId === 'form') {
+            startRealtimeClock();
+          }
         });
       });
 
       // Set current date and time
+      // Set current date and time and start real-time clock
       function setCurrentDateTime() {
         const now = new Date();
         const dateInput = document.getElementById('tanggal');
@@ -851,6 +863,33 @@
 
         dateInput.value = formattedDate;
         timeInput.value = formattedTime;
+
+        // Start real-time clock update
+        startRealtimeClock();
+      }
+
+      // Function to start real-time clock
+      function startRealtimeClock() {
+        // Update time every second
+        window.clockInterval = setInterval(function () {
+          const now = new Date();
+          const timeInput = document.getElementById('waktu');
+
+          // Format time as HH:MM:SS
+          const hours = String(now.getHours()).padStart(2, '0');
+          const minutes = String(now.getMinutes()).padStart(2, '0');
+          const seconds = String(now.getSeconds()).padStart(2, '0');
+          const formattedTime = `${hours}:${minutes}`;
+
+          timeInput.value = formattedTime;
+        }, 1000);
+      }
+
+      // Function to stop real-time clock (used when leaving form)
+      function stopRealtimeClock() {
+        if (window.clockInterval) {
+          clearInterval(window.clockInterval);
+        }
       }
 
       // Modal functionality
@@ -1471,6 +1510,7 @@
       });
 
       // Function to enable edit mode for an existing record
+      // Function to enable edit mode for an existing record
       function editItem(id) {
         const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
         const item = savedData.find(doc => doc.id === id);
@@ -1490,15 +1530,20 @@
           document.getElementById('submitBtn').textContent = 'Simpan Perubahan';
           document.getElementById('cancelBtn').style.display = 'inline-block';
 
-          // Fill form with data
+          // Fill form with data - notice we're not setting the time, it will be the current time
           document.getElementById('petugas').value = item.petugas;
           document.getElementById('tanggal').value = item.tanggal;
           document.getElementById('lokasi').value = item.lokasi;
           document.getElementById('cabor').value = item.cabor;
-          document.getElementById('waktu').value = item.waktu;
+          // We don't set time here since we want it to be real-time: document.getElementById('waktu').value = item.waktu;
           document.getElementById('kendala').value = item.kendala || '';
           document.getElementById('solusi').value = item.solusi || '';
           document.getElementById('rekomendasi').value = item.rekomendasi || '';
+
+          // Start real-time clock if not already running
+          startRealtimeClock();
+
+          // Rest of the edit function remains the same...
 
           // Clear all tables
           document.querySelector('#dataKasusTable tbody').innerHTML = '';
