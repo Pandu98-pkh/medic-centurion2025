@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,28 +16,33 @@
             padding: 0;
             background-color: #f5f5f5;
         }
+
         .container {
             width: 95%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 10px;
         }
+
         header {
             background-color: #0066cc;
             color: white;
             padding: 15px 0;
             text-align: center;
         }
+
         header h1 {
             margin: 0;
             font-size: 1.8rem;
         }
+
         nav {
             background-color: #004d99;
             padding: 10px 0;
             overflow-x: auto;
             white-space: nowrap;
         }
+
         nav ul {
             list-style-type: none;
             margin: 0;
@@ -45,10 +51,12 @@
             display: flex;
             justify-content: center;
         }
+
         nav ul li {
             display: inline-block;
             margin: 0 10px;
         }
+
         nav ul li a {
             color: white;
             text-decoration: none;
@@ -56,16 +64,19 @@
             padding: 8px 12px;
             display: block;
         }
+
         nav ul li a.active {
             border-bottom: 3px solid white;
         }
+
         .section {
             background-color: white;
             padding: 15px;
             margin: 15px 0;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         h2 {
             color: #0066cc;
             border-bottom: 2px solid #0066cc;
@@ -73,52 +84,71 @@
             font-size: 1.5rem;
             margin-top: 0;
         }
+
         h3 {
             color: #0066cc;
             font-size: 1.2rem;
             margin-top: 20px;
             margin-bottom: 10px;
         }
+
         h3 i {
             margin-right: 8px;
         }
+
         .table-container {
             overflow-x: auto;
             margin-bottom: 15px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px; /* Ensures tables have a minimum width on mobile */
+            min-width: 600px;
+            /* Ensures tables have a minimum width on mobile */
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid #ddd;
         }
-        th, td {
+
+        th,
+        td {
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
             white-space: nowrap;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
-        input[type="text"], input[type="date"], input[type="time"], textarea, select {
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
-            font-size: 16px; /* Better for mobile touch */
+            font-size: 16px;
+            /* Better for mobile touch */
         }
-        
+
         /* Styling for number inputs to match other inputs */
         input[type="number"] {
             width: 100%;
@@ -127,19 +157,21 @@
             border-radius: 4px;
             box-sizing: border-box;
             font-size: 16px;
-            appearance: textfield; /* Removes spinner on some browsers */
+            appearance: textfield;
+            /* Removes spinner on some browsers */
         }
-        
+
         /* Remove spinner arrows from number inputs */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-        
+
         textarea {
             height: 80px;
         }
+
         button {
             background-color: #0066cc;
             color: white;
@@ -151,72 +183,89 @@
             font-size: 16px;
             margin: 5px;
         }
+
         button:hover {
             background-color: #004d99;
         }
+
         .add-row-btn {
             margin: 10px 0;
             background-color: #28a745;
         }
+
         .delete-row-btn {
             background-color: #dc3545;
             padding: 4px 8px;
             font-size: 12px;
         }
+
         .dashboard-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
+
         .dashboard-card {
             background-color: white;
             border-radius: 5px;
             padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         .card-title {
             font-size: 16px;
             color: #666;
         }
+
         .card-value {
             font-size: 24px;
             font-weight: bold;
             color: #0066cc;
             margin: 10px 0;
         }
+
         .history-item {
             padding: 15px;
             border-bottom: 1px solid #eee;
         }
+
         .history-item:hover {
             background-color: #f9f9f9;
         }
+
         .history-item h3 {
             margin-top: 0;
             color: #333;
         }
+
         .history-actions {
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
         }
-        .view-btn, .download-btn {
+
+        .view-btn,
+        .download-btn {
             flex: 1;
             min-width: 120px;
         }
+
         .delete-btn {
             background-color: #dc3545;
         }
+
         .edit-btn {
             background-color: #ffc107;
             color: #212529;
         }
-        #dashboard, #history {
+
+        #dashboard,
+        #history {
             display: none;
         }
-        
+
         /* CSV Download instructions */
         .csv-info {
             background-color: #f8f9fa;
@@ -225,7 +274,7 @@
             margin-top: 15px;
             border-left: 4px solid #0066cc;
         }
-        
+
         /* Export/Import buttons */
         .export-import-buttons {
             display: flex;
@@ -233,18 +282,18 @@
             gap: 10px;
             margin-top: 10px;
         }
-        
+
         .import-container {
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
         }
-        
+
         #importDataBtn:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
         }
-        
+
         /* Modal styles */
         .modal-overlay {
             position: fixed;
@@ -261,12 +310,12 @@
             visibility: hidden;
             transition: all 0.3s ease-in-out;
         }
-        
+
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-        
+
         .modal {
             background-color: white;
             border-radius: 8px;
@@ -278,11 +327,11 @@
             transform: translateY(-20px);
             transition: transform 0.3s ease-in-out;
         }
-        
+
         .modal-overlay.active .modal {
             transform: translateY(0);
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -290,12 +339,12 @@
             padding: 15px 20px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .modal-header h3 {
             margin: 0;
             color: #0066cc;
         }
-        
+
         .close-modal {
             background: none;
             border: none;
@@ -305,18 +354,18 @@
             padding: 0;
             margin: 0;
         }
-        
+
         .modal-body {
             padding: 20px;
         }
-        
+
         .modal-footer {
             padding: 15px 20px;
             border-top: 1px solid #eee;
             display: flex;
             justify-content: flex-end;
         }
-        
+
         /* Alert/Toast message */
         .toast-container {
             position: fixed;
@@ -324,47 +373,47 @@
             right: 20px;
             z-index: 1001;
         }
-        
+
         .toast {
             background-color: #333;
             color: white;
             padding: 15px 20px;
             border-radius: 5px;
             margin-bottom: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             transform: translateX(100%);
             opacity: 0;
             transition: all 0.3s ease-in-out;
         }
-        
+
         .toast.success {
             background-color: #28a745;
         }
-        
+
         .toast.error {
             background-color: #dc3545;
         }
-        
+
         .toast.info {
             background-color: #0066cc;
         }
-        
+
         .toast.show {
             transform: translateX(0);
             opacity: 1;
         }
-        
+
         .toast-icon {
             margin-right: 10px;
             font-size: 20px;
         }
-        
+
         .toast-message {
             flex-grow: 1;
         }
-        
+
         .toast-close {
             background: none;
             border: none;
@@ -374,79 +423,80 @@
             padding: 0;
             margin-left: 10px;
         }
-        
+
         /* Mobile specific styles */
         @media screen and (max-width: 768px) {
             header h1 {
                 font-size: 1.4rem;
             }
-            
+
             .container {
                 width: 100%;
                 padding: 5px;
             }
-            
+
             .section {
                 padding: 10px;
             }
-            
+
             button {
                 width: 100%;
                 margin: 5px 0;
             }
-            
+
             .dashboard-cards {
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
             }
-            
+
             .dashboard-card {
                 padding: 10px;
             }
-            
+
             .card-title {
                 font-size: 14px;
             }
-            
+
             .card-value {
                 font-size: 20px;
             }
-            
+
             .history-item {
                 padding: 10px;
             }
-            
+
             .history-actions {
                 flex-direction: column;
             }
-            
+
             nav ul {
                 display: flex;
                 justify-content: space-between;
                 width: 100%;
             }
-            
+
             nav ul li {
                 margin: 0;
                 flex: 1;
             }
-            
+
             nav ul li a {
                 padding: 10px 5px;
                 font-size: 14px;
             }
-            
+
             .modal {
                 width: 95%;
             }
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Sistem Dokumentasi Tim Medis</h1>
     </header>
-    
+
     <nav>
         <ul>
             <li><a href="#" class="nav-link active" data-target="dashboard">Dashboard</a></li>
@@ -454,7 +504,7 @@
             <li><a href="#" class="nav-link" data-target="history">Riwayat</a></li>
         </ul>
     </nav>
-    
+
     <div class="container">
         <!-- Dashboard Section -->
         <div id="dashboard" class="section">
@@ -477,18 +527,18 @@
                     <div class="card-value">0</div>
                 </div>
             </div>
-            
+
             <h3><i class="fas fa-history"></i> Aktivitas Terbaru</h3>
             <div id="recent-activities">
                 <div class="history-item">Belum ada aktivitas terbaru</div>
             </div>
-            
+
             <div class="csv-info">
                 <h3><i class="fas fa-file-csv"></i> Ekspor Data CSV</h3>
                 <p>Ekspor semua data riwayat ke dalam format CSV.</p>
                 <button id="downloadCSVAll">Download Semua Data (CSV)</button>
             </div>
-            
+
             <div class="csv-info">
                 <h3><i class="fas fa-file-export"></i> Ekspor/Impor Data</h3>
                 <p>Ekspor data untuk berbagi atau backup. Impor data untuk memulihkan atau berbagi antar perangkat.</p>
@@ -502,7 +552,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Form Section -->
         <div id="form" class="section">
             <h2 id="formTitle"><i class="fas fa-clipboard-list"></i> Form Dokumentasi Tim Medis</h2>
@@ -510,32 +560,32 @@
                 <!-- Hidden fields for edit mode -->
                 <input type="hidden" id="formMode" value="add">
                 <input type="hidden" id="editItemId" value="">
-                
+
                 <div class="form-group">
                     <label for="petugas">Nama Petugas:</label>
                     <input type="text" id="petugas" name="petugas" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="tanggal">Tanggal:</label>
                     <input type="date" id="tanggal" name="tanggal" required readonly>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="lokasi">Lokasi Kegiatan:</label>
                     <input type="text" id="lokasi" name="lokasi" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="cabor">Cabang Olahraga:</label>
                     <input type="text" id="cabor" name="cabor" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="waktu">Waktu:</label>
                     <input type="time" id="waktu" name="waktu" required readonly>
                 </div>
-                
+
                 <h3><i class="fas fa-user-injured"></i> Data Kasus</h3>
                 <div class="table-container">
                     <table id="dataKasusTable">
@@ -544,7 +594,6 @@
                                 <th>No.</th>
                                 <th>Waktu</th>
                                 <th>Nama Pasien</th>
-                                <th>Usia</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Keluhan/Cedera</th>
                                 <th>Penanganan</th>
@@ -557,7 +606,6 @@
                                 <td>1</td>
                                 <td><input type="time" name="kasus_waktu[]"></td>
                                 <td><input type="text" name="kasus_nama[]"></td>
-                                <td><input type="number" name="kasus_usia[]" min="0" step="1"></td>
                                 <td>
                                     <select name="kasus_jk[]">
                                         <option value="L">Laki-laki</option>
@@ -567,13 +615,14 @@
                                 <td><input type="text" name="kasus_keluhan[]"></td>
                                 <td><input type="text" name="kasus_penanganan[]"></td>
                                 <td><input type="text" name="kasus_hasil[]"></td>
-                                <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button></td>
+                                <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <button type="button" class="add-row-btn" id="addKasusRow">Tambah Baris</button>
-                
+
                 <h3><i class="fas fa-pills"></i> Penggunaan Obat & Alat Medis</h3>
                 <div class="table-container">
                     <table id="penggunaanObatTable">
@@ -593,16 +642,18 @@
                                 <td>1</td>
                                 <td><input type="text" name="obat_nama[]"></td>
                                 <td><input type="number" name="obat_awal[]" class="obat-awal" min="0" step="0.01"></td>
-                                <td><input type="number" name="obat_terpakai[]" class="obat-terpakai" min="0" step="0.01"></td>
+                                <td><input type="number" name="obat_terpakai[]" class="obat-terpakai" min="0"
+                                        step="0.01"></td>
                                 <td><input type="number" name="obat_sisa[]" class="obat-sisa" readonly step="0.01"></td>
                                 <td><input type="text" name="obat_keterangan[]"></td>
-                                <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button></td>
+                                <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <button type="button" class="add-row-btn" id="addObatRow">Tambah Baris</button>
-                
+
                 <h3><i class="fas fa-toolbox"></i> Catatan Perlengkapan dan Alat Medis</h3>
                 <div class="table-container">
                     <table id="perlengkapanTable">
@@ -637,13 +688,14 @@
                                     </select>
                                 </td>
                                 <td><input type="text" name="perlengkapan_keterangan[]"></td>
-                                <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button></td>
+                                <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <button type="button" class="add-row-btn" id="addPerlengkapanRow">Tambah Baris</button>
-                
+
                 <h3><i class="fas fa-ambulance"></i> Rujukan Medis</h3>
                 <div class="table-container">
                     <table id="rujukanTable">
@@ -666,29 +718,30 @@
                                 <td><input type="text" name="rujukan_tujuan[]"></td>
                                 <td><input type="time" name="rujukan_waktu[]"></td>
                                 <td><input type="text" name="rujukan_keterangan[]"></td>
-                                <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button></td>
+                                <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <button type="button" class="add-row-btn" id="addRujukanRow">Tambah Baris</button>
-                
+
                 <h3><i class="fas fa-clipboard-check"></i> Evaluasi Kegiatan</h3>
                 <div class="form-group">
                     <label for="kendala">Kendala yang Dihadapi:</label>
                     <textarea id="kendala" name="kendala"></textarea>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="solusi">Solusi yang Dilakukan:</label>
                     <textarea id="solusi" name="solusi"></textarea>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="rekomendasi">Rekomendasi untuk Kegiatan Selanjutnya:</label>
                     <textarea id="rekomendasi" name="rekomendasi"></textarea>
                 </div>
-                
+
                 <div style="margin-top: 20px;">
                     <button type="submit" id="submitBtn">Simpan Dokumentasi</button>
                     <button type="button" id="cancelBtn" style="display:none;">Batal</button>
@@ -696,7 +749,7 @@
                 </div>
             </form>
         </div>
-        
+
         <!-- History Section -->
         <div id="history" class="section">
             <h2><i class="fas fa-history"></i> Riwayat Dokumentasi</h2>
@@ -705,7 +758,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Modals -->
     <!-- Confirmation Modal -->
     <div class="modal-overlay" id="confirmModal">
@@ -723,7 +776,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Detail View Modal -->
     <div class="modal-overlay" id="detailModal">
         <div class="modal">
@@ -739,7 +792,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Import Options Modal -->
     <div class="modal-overlay" id="importOptionsModal">
         <div class="modal">
@@ -751,13 +804,13 @@
                 <p>Bagaimana Anda ingin menangani data yang akan diimpor?</p>
                 <div class="form-group">
                     <label>
-                        <input type="radio" name="importOption" value="replace" checked> 
+                        <input type="radio" name="importOption" value="replace" checked>
                         Ganti semua data yang ada dengan data baru
                     </label>
                 </div>
                 <div class="form-group">
                     <label>
-                        <input type="radio" name="importOption" value="merge"> 
+                        <input type="radio" name="importOption" value="merge">
                         Gabungkan dengan data yang sudah ada (tambahkan yang baru, perbarui yang sama)
                     </label>
                 </div>
@@ -768,157 +821,157 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Toast Messages Container -->
     <div class="toast-container" id="toastContainer"></div>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Set automatic date and time and start real-time clock
             setCurrentDateTime();
-            
+
             // Show dashboard by default
             document.getElementById('dashboard').style.display = 'block';
-            
+
             // Navigation
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     e.preventDefault();
-                    
+
                     // Stop real-time clock if leaving form section
                     if (document.querySelector('.nav-link.active').getAttribute('data-target') === 'form') {
                         stopRealtimeClock();
                     }
-                    
+
                     // Remove active class from all links
                     navLinks.forEach(link => link.classList.remove('active'));
-                    
+
                     // Add active class to clicked link
                     this.classList.add('active');
-                    
+
                     // Hide all sections
                     document.querySelectorAll('.section').forEach(section => {
                         section.style.display = 'none';
                     });
-                    
+
                     // Show the target section
                     const targetId = this.getAttribute('data-target');
                     document.getElementById(targetId).style.display = 'block';
-                    
+
                     // Start real-time clock if entering form section
                     if (targetId === 'form') {
                         startRealtimeClock();
                     }
                 });
             });
-            
+
             // Set current date and time
             function setCurrentDateTime() {
                 const now = new Date();
                 const dateInput = document.getElementById('tanggal');
                 const timeInput = document.getElementById('waktu');
-                
+
                 // Format date as YYYY-MM-DD
                 const year = now.getFullYear();
                 const month = String(now.getMonth() + 1).padStart(2, '0');
                 const day = String(now.getDate()).padStart(2, '0');
                 const formattedDate = `${year}-${month}-${day}`;
-                
+
                 // Format time as HH:MM
                 const hours = String(now.getHours()).padStart(2, '0');
                 const minutes = String(now.getMinutes()).padStart(2, '0');
                 const formattedTime = `${hours}:${minutes}`;
-                
+
                 dateInput.value = formattedDate;
                 timeInput.value = formattedTime;
-                
+
                 // Start real-time clock update
                 startRealtimeClock();
             }
-            
+
             // Function to start real-time clock
             function startRealtimeClock() {
                 // Clear any existing interval
                 stopRealtimeClock();
-                
+
                 // Update time every second
-                window.clockInterval = setInterval(function() {
+                window.clockInterval = setInterval(function () {
                     const now = new Date();
                     const timeInput = document.getElementById('waktu');
-                    
+
                     // Format time as HH:MM
                     const hours = String(now.getHours()).padStart(2, '0');
                     const minutes = String(now.getMinutes()).padStart(2, '0');
                     const formattedTime = `${hours}:${minutes}`;
-                    
+
                     timeInput.value = formattedTime;
                 }, 1000);
             }
-            
+
             // Function to stop real-time clock
             function stopRealtimeClock() {
                 if (window.clockInterval) {
                     clearInterval(window.clockInterval);
                 }
             }
-            
+
             // Modal functionality
             const closeModalButtons = document.querySelectorAll('.close-modal');
             closeModalButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const modalOverlay = this.closest('.modal-overlay');
                     closeModal(modalOverlay);
                 });
             });
-            
+
             function openModal(modalId) {
                 const modal = document.getElementById(modalId);
                 modal.classList.add('active');
-                
+
                 // Close modal when clicking outside
-                modal.addEventListener('click', function(e) {
+                modal.addEventListener('click', function (e) {
                     if (e.target === this) {
                         closeModal(modal);
                     }
                 });
             }
-            
+
             function closeModal(modal) {
                 modal.classList.remove('active');
             }
-            
+
             // Toast message functionality
             function showToast(message, type = 'info') {
                 const container = document.getElementById('toastContainer');
                 const toast = document.createElement('div');
                 toast.className = `toast ${type}`;
-                
+
                 let icon = 'info-circle';
                 if (type === 'success') icon = 'check-circle';
                 if (type === 'error') icon = 'exclamation-circle';
-                
+
                 toast.innerHTML = `
                     <div class="toast-icon"><i class="fas fa-${icon}"></i></div>
                     <div class="toast-message">${message}</div>
                     <button class="toast-close">&times;</button>
                 `;
-                
+
                 container.appendChild(toast);
-                
+
                 // Show the toast (with animation)
                 setTimeout(() => {
                     toast.classList.add('show');
                 }, 10);
-                
+
                 // Add event listener to close button
-                toast.querySelector('.toast-close').addEventListener('click', function() {
+                toast.querySelector('.toast-close').addEventListener('click', function () {
                     toast.classList.remove('show');
                     setTimeout(() => {
                         container.removeChild(toast);
                     }, 300);
                 });
-                
+
                 // Auto close after 5 seconds
                 setTimeout(() => {
                     if (container.contains(toast)) {
@@ -931,14 +984,13 @@
                     }
                 }, 5000);
             }
-            
+
             // Add row to tables
-            document.getElementById('addKasusRow').addEventListener('click', function() {
+            document.getElementById('addKasusRow').addEventListener('click', function () {
                 addTableRow('dataKasusTable', [
                     document.querySelectorAll('#dataKasusTable tbody tr').length + 1,
                     '<input type="time" name="kasus_waktu[]">',
                     '<input type="text" name="kasus_nama[]">',
-                    '<input type="number" name="kasus_usia[]" min="0" step="1">',
                     '<select name="kasus_jk[]"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select>',
                     '<input type="text" name="kasus_keluhan[]">',
                     '<input type="text" name="kasus_penanganan[]">',
@@ -947,8 +999,8 @@
                 ]);
                 showToast('Baris baru ditambahkan', 'success');
             });
-            
-            document.getElementById('addObatRow').addEventListener('click', function() {
+
+            document.getElementById('addObatRow').addEventListener('click', function () {
                 addTableRow('penggunaanObatTable', [
                     document.querySelectorAll('#penggunaanObatTable tbody tr').length + 1,
                     '<input type="text" name="obat_nama[]">',
@@ -958,13 +1010,13 @@
                     '<input type="text" name="obat_keterangan[]">',
                     '<button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>'
                 ]);
-                
+
                 // Add event listeners for automatic sisa calculation
                 addSisaCalculationEvents();
                 showToast('Baris baru ditambahkan', 'success');
             });
-            
-            document.getElementById('addPerlengkapanRow').addEventListener('click', function() {
+
+            document.getElementById('addPerlengkapanRow').addEventListener('click', function () {
                 addTableRow('perlengkapanTable', [
                     document.querySelectorAll('#perlengkapanTable tbody tr').length + 1,
                     '<input type="text" name="perlengkapan_nama[]">',
@@ -975,8 +1027,8 @@
                 ]);
                 showToast('Baris baru ditambahkan', 'success');
             });
-            
-            document.getElementById('addRujukanRow').addEventListener('click', function() {
+
+            document.getElementById('addRujukanRow').addEventListener('click', function () {
                 addTableRow('rujukanTable', [
                     document.querySelectorAll('#rujukanTable tbody tr').length + 1,
                     '<input type="text" name="rujukan_nama[]">',
@@ -988,125 +1040,125 @@
                 ]);
                 showToast('Baris baru ditambahkan', 'success');
             });
-            
+
             // Function to add a new row to a table
             function addTableRow(tableId, cellContents) {
                 const tbody = document.querySelector(`#${tableId} tbody`);
                 const row = document.createElement('tr');
-                
+
                 cellContents.forEach(content => {
                     const cell = document.createElement('td');
                     cell.innerHTML = content;
                     row.appendChild(cell);
                 });
-                
+
                 tbody.appendChild(row);
-                
+
                 // Add event listener to delete button
                 const deleteBtn = row.querySelector('.delete-row-btn');
                 if (deleteBtn) {
-                    deleteBtn.addEventListener('click', function() {
+                    deleteBtn.addEventListener('click', function () {
                         confirmDeleteRow(this);
                     });
                 }
             }
-            
+
             // Function to confirm delete a table row
             function confirmDeleteRow(button) {
                 const row = button.closest('tr');
                 const tbody = row.parentNode;
                 const rowIndex = Array.from(tbody.children).indexOf(row);
-                
+
                 document.getElementById('confirmMessage').textContent = 'Apakah Anda yakin ingin menghapus baris ini?';
-                
+
                 // Set up confirm modal buttons
-                document.getElementById('confirmAction').onclick = function() {
+                document.getElementById('confirmAction').onclick = function () {
                     tbody.removeChild(row);
-                    
+
                     // Renumber rows
                     const rows = tbody.querySelectorAll('tr');
                     rows.forEach((row, index) => {
                         row.cells[0].textContent = index + 1;
                     });
-                    
+
                     closeModal(document.getElementById('confirmModal'));
                     showToast('Baris berhasil dihapus', 'info');
                 };
-                
-                document.getElementById('cancelAction').onclick = function() {
+
+                document.getElementById('cancelAction').onclick = function () {
                     closeModal(document.getElementById('confirmModal'));
                 };
-                
+
                 openModal('confirmModal');
             }
-            
+
             // Add event listeners to existing delete buttons
             document.querySelectorAll('.delete-row-btn').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     confirmDeleteRow(this);
                 });
             });
-            
+
             // Function to calculate "Sisa" automatically
             function addSisaCalculationEvents() {
                 const rows = document.querySelectorAll('#penggunaanObatTable tbody tr');
-                
+
                 rows.forEach(row => {
                     const awalInput = row.querySelector('.obat-awal');
                     const terpakaiInput = row.querySelector('.obat-terpakai');
                     const sisaInput = row.querySelector('.obat-sisa');
-                    
+
                     if (awalInput && terpakaiInput && sisaInput) {
-                        const calculateSisa = function() {
+                        const calculateSisa = function () {
                             const awal = parseFloat(awalInput.value) || 0;
                             const terpakai = parseFloat(terpakaiInput.value) || 0;
                             sisaInput.value = (awal - terpakai).toFixed(2);
                         };
-                        
+
                         awalInput.addEventListener('input', calculateSisa);
                         terpakaiInput.addEventListener('input', calculateSisa);
-                        
+
                         // Initial calculation
                         calculateSisa();
                     }
                 });
             }
-            
+
             // Initialize sisa calculation for existing rows
             addSisaCalculationEvents();
-            
+
             // Function to convert all data to CSV
             function convertAllDataToCSV(dataArray) {
                 // Create CSV header for main data
                 let csvContent = "id,tanggal_input,petugas,tanggal,lokasi,cabor,waktu,kendala,solusi,rekomendasi\n";
-                
+
                 // Add data rows
                 dataArray.forEach(data => {
                     csvContent += `${data.id},${data.date.split('T')[0]},${escapeCSV(data.petugas)},${data.tanggal},${escapeCSV(data.lokasi)},${escapeCSV(data.cabor)},${data.waktu},${escapeCSV(data.kendala || "")},${escapeCSV(data.solusi || "")},${escapeCSV(data.rekomendasi || "")}\n`;
                 });
-                
+
                 // Add separator
                 csvContent += "\n\n";
-                
+
                 // Add Kasus Data
-                csvContent += "id,Waktu,Nama Pasien,Usia,Jenis Kelamin,Keluhan/Cedera,Penanganan,Hasil\n";
-                
+                csvContent += "id,Waktu,Nama Pasien,Jenis Kelamin,Keluhan/Cedera,Penanganan,Hasil\n";
+
                 dataArray.forEach(data => {
                     if (Array.isArray(data.kasus_nama)) {
                         for (let i = 0; i < data.kasus_nama.length; i++) {
                             if (data.kasus_nama[i] && data.kasus_nama[i].trim() !== '') {
-                                csvContent += `${data.id},${data.kasus_waktu ? data.kasus_waktu[i] || '' : ''},${escapeCSV(data.kasus_nama[i] || '')},${data.kasus_usia ? data.kasus_usia[i] || '' : ''},${data.kasus_jk ? data.kasus_jk[i] || '' : ''},${escapeCSV(data.kasus_keluhan ? data.kasus_keluhan[i] || '' : '')},${escapeCSV(data.kasus_penanganan ? data.kasus_penanganan[i] || '' : '')},${escapeCSV(data.kasus_hasil ? data.kasus_hasil[i] || '' : '')}\n`;
+                                csvContent += `${data.id},${data.kasus_waktu ? data.kasus_waktu[i] || '' : ''},${escapeCSV(data.kasus_nama[i] || '')},${data.kasus_jk ? data.kasus_jk[i] || '' : ''},${escapeCSV(data.kasus_keluhan ? data.kasus_keluhan[i] || '' : '')},${escapeCSV(data.kasus_penanganan ? data.kasus_penanganan[i] || '' : '')},${escapeCSV(data.kasus_hasil ? data.kasus_hasil[i] || '' : '')}\n`;
                             }
                         }
                     }
                 });
-                
+
                 // Add separator
                 csvContent += "\n\n";
-                
+
                 // Add Obat Data
                 csvContent += "id,Nama Item,Jumlah Awal,Jumlah Terpakai,Sisa,Keterangan\n";
-                
+
                 dataArray.forEach(data => {
                     if (Array.isArray(data.obat_nama)) {
                         for (let i = 0; i < data.obat_nama.length; i++) {
@@ -1116,13 +1168,13 @@
                         }
                     }
                 });
-                
+
                 // Add separator
                 csvContent += "\n\n";
-                
+
                 // Add Perlengkapan Data
                 csvContent += "id,Nama Perlengkapan,Kondisi Awal,Kondisi Akhir,Keterangan\n";
-                
+
                 dataArray.forEach(data => {
                     if (Array.isArray(data.perlengkapan_nama)) {
                         for (let i = 0; i < data.perlengkapan_nama.length; i++) {
@@ -1132,13 +1184,13 @@
                         }
                     }
                 });
-                
+
                 // Add separator
                 csvContent += "\n\n";
-                
+
                 // Add Rujukan Data
                 csvContent += "id,Nama Pasien,Alasan Rujukan,Fasilitas Kesehatan Tujuan,Waktu Rujukan,Keterangan\n";
-                
+
                 dataArray.forEach(data => {
                     if (Array.isArray(data.rujukan_nama)) {
                         for (let i = 0; i < data.rujukan_nama.length; i++) {
@@ -1148,21 +1200,21 @@
                         }
                     }
                 });
-                
+
                 return csvContent;
             }
-            
+
             // Function to escape CSV values
             function escapeCSV(value) {
                 if (value === null || value === undefined) return "";
                 return `"${String(value).replace(/"/g, '""')}"`;
             }
-            
+
             // Function to download CSV
             function downloadCSV(csvContent, filename) {
                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                 const link = document.createElement('a');
-                
+
                 // Create download link
                 if (navigator.msSaveBlob) { // IE 10+
                     navigator.msSaveBlob(blob, filename);
@@ -1175,36 +1227,36 @@
                     document.body.removeChild(link);
                 }
             }
-            
+
             // Download all data as CSV
-            document.getElementById('downloadCSVAll').addEventListener('click', function() {
+            document.getElementById('downloadCSVAll').addEventListener('click', function () {
                 const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
                 if (savedData.length === 0) {
                     showToast('Belum ada data yang tersimpan', 'error');
                     return;
                 }
-                
+
                 const csvContent = convertAllDataToCSV(savedData);
                 downloadCSV(csvContent, 'riwayat.csv');
                 showToast('Data CSV berhasil diunduh', 'success');
             });
-            
+
             // Export data to JSON file
-            document.getElementById('exportDataBtn').addEventListener('click', function() {
+            document.getElementById('exportDataBtn').addEventListener('click', function () {
                 exportData();
             });
-            
+
             function exportData() {
                 const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
-                
+
                 if (savedData.length === 0) {
                     showToast('Belum ada data yang tersimpan', 'error');
                     return;
                 }
-                
+
                 // Convert data to JSON string
                 const jsonData = JSON.stringify(savedData, null, 2);
-                
+
                 // Create a blob and download link
                 const blob = new Blob([jsonData], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -1214,63 +1266,63 @@
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                
+
                 showToast('Data berhasil diekspor', 'success');
             }
-            
+
             // Import trigger and file input
-            document.getElementById('importTriggerBtn').addEventListener('click', function() {
+            document.getElementById('importTriggerBtn').addEventListener('click', function () {
                 document.getElementById('fileInput').click();
             });
-            
-            document.getElementById('fileInput').addEventListener('change', function() {
+
+            document.getElementById('fileInput').addEventListener('change', function () {
                 const importBtn = document.getElementById('importDataBtn');
                 importBtn.disabled = !this.files || this.files.length === 0;
-                
+
                 if (!importBtn.disabled) {
                     showToast('File dipilih. Klik "Proses Impor" untuk melanjutkan.', 'info');
                 }
             });
-            
+
             // Import data button
-            document.getElementById('importDataBtn').addEventListener('click', function() {
+            document.getElementById('importDataBtn').addEventListener('click', function () {
                 openModal('importOptionsModal');
             });
-            
+
             // Import option handlers
-            document.getElementById('cancelImport').addEventListener('click', function() {
+            document.getElementById('cancelImport').addEventListener('click', function () {
                 closeModal(document.getElementById('importOptionsModal'));
                 document.getElementById('fileInput').value = '';
                 document.getElementById('importDataBtn').disabled = true;
             });
-            
-            document.getElementById('confirmImport').addEventListener('click', function() {
+
+            document.getElementById('confirmImport').addEventListener('click', function () {
                 const option = document.querySelector('input[name="importOption"]:checked').value;
                 processImport(option);
                 closeModal(document.getElementById('importOptionsModal'));
             });
-            
+
             // Function to process the import
             function processImport(option) {
                 const fileInput = document.getElementById('fileInput');
-                
+
                 if (!fileInput.files || fileInput.files.length === 0) {
                     showToast('Silakan pilih file terlebih dahulu', 'error');
                     return;
                 }
-                
+
                 const file = fileInput.files[0];
                 const reader = new FileReader();
-                
-                reader.onload = function(e) {
+
+                reader.onload = function (e) {
                     try {
                         const importedData = JSON.parse(e.target.result);
-                        
+
                         // Validate imported data
                         if (!Array.isArray(importedData)) {
                             throw new Error('Format data tidak valid');
                         }
-                        
+
                         if (option === 'replace') {
                             // Replace all existing data
                             localStorage.setItem('medicalDocuments', JSON.stringify(importedData));
@@ -1278,7 +1330,7 @@
                             // Merge with existing data
                             const existingData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
                             const mergedData = [...existingData];
-                            
+
                             // Merge based on unique IDs
                             importedData.forEach(item => {
                                 const index = mergedData.findIndex(doc => doc.id === item.id);
@@ -1288,14 +1340,14 @@
                                     mergedData.push(item); // Add new
                                 }
                             });
-                            
+
                             localStorage.setItem('medicalDocuments', JSON.stringify(mergedData));
                         }
-                        
+
                         showToast('Data berhasil diimpor', 'success');
                         updateDashboard();
                         updateHistory();
-                        
+
                         // Reset file input
                         fileInput.value = '';
                         document.getElementById('importDataBtn').disabled = true;
@@ -1303,20 +1355,20 @@
                         showToast(`Gagal mengimpor data: ${error.message}`, 'error');
                     }
                 };
-                
+
                 reader.readAsText(file);
             }
-            
+
             // Save form data
-            document.getElementById('medicalForm').addEventListener('submit', function(e) {
+            document.getElementById('medicalForm').addEventListener('submit', function (e) {
                 e.preventDefault();
-                
+
                 // Validate form
                 if (!validateForm()) {
                     showToast('Mohon lengkapi data dengan benar', 'error');
                     return;
                 }
-                
+
                 // Get basic form data
                 const formDataObj = {
                     petugas: document.getElementById('petugas').value,
@@ -1328,36 +1380,34 @@
                     solusi: document.getElementById('solusi').value,
                     rekomendasi: document.getElementById('rekomendasi').value
                 };
-                
+
                 // Collect table data
                 // Kasus data
                 formDataObj.kasus_waktu = [];
                 formDataObj.kasus_nama = [];
-                formDataObj.kasus_usia = [];
                 formDataObj.kasus_jk = [];
                 formDataObj.kasus_keluhan = [];
                 formDataObj.kasus_penanganan = [];
                 formDataObj.kasus_hasil = [];
-                
+
                 const kasusRows = document.querySelectorAll('#dataKasusTable tbody tr');
                 kasusRows.forEach(row => {
                     const cells = row.querySelectorAll('td');
                     formDataObj.kasus_waktu.push(cells[1].querySelector('input').value);
                     formDataObj.kasus_nama.push(cells[2].querySelector('input').value);
-                    formDataObj.kasus_usia.push(cells[3].querySelector('input').value);
-                    formDataObj.kasus_jk.push(cells[4].querySelector('select').value);
-                    formDataObj.kasus_keluhan.push(cells[5].querySelector('input').value);
-                    formDataObj.kasus_penanganan.push(cells[6].querySelector('input').value);
-                    formDataObj.kasus_hasil.push(cells[7].querySelector('input').value);
+                    formDataObj.kasus_jk.push(cells[3].querySelector('select').value);
+                    formDataObj.kasus_keluhan.push(cells[4].querySelector('input').value);
+                    formDataObj.kasus_penanganan.push(cells[5].querySelector('input').value);
+                    formDataObj.kasus_hasil.push(cells[6].querySelector('input').value);
                 });
-                
+
                 // Obat data
                 formDataObj.obat_nama = [];
                 formDataObj.obat_awal = [];
                 formDataObj.obat_terpakai = [];
                 formDataObj.obat_sisa = [];
                 formDataObj.obat_keterangan = [];
-                
+
                 const obatRows = document.querySelectorAll('#penggunaanObatTable tbody tr');
                 obatRows.forEach(row => {
                     const cells = row.querySelectorAll('td');
@@ -1367,13 +1417,13 @@
                     formDataObj.obat_sisa.push(cells[4].querySelector('input').value);
                     formDataObj.obat_keterangan.push(cells[5].querySelector('input').value);
                 });
-                
+
                 // Perlengkapan data
                 formDataObj.perlengkapan_nama = [];
                 formDataObj.perlengkapan_awal = [];
                 formDataObj.perlengkapan_akhir = [];
                 formDataObj.perlengkapan_keterangan = [];
-                
+
                 const perlengkapanRows = document.querySelectorAll('#perlengkapanTable tbody tr');
                 perlengkapanRows.forEach(row => {
                     const cells = row.querySelectorAll('td');
@@ -1382,14 +1432,14 @@
                     formDataObj.perlengkapan_akhir.push(cells[3].querySelector('select').value);
                     formDataObj.perlengkapan_keterangan.push(cells[4].querySelector('input').value);
                 });
-                
+
                 // Rujukan data
                 formDataObj.rujukan_nama = [];
                 formDataObj.rujukan_alasan = [];
                 formDataObj.rujukan_tujuan = [];
                 formDataObj.rujukan_waktu = [];
                 formDataObj.rujukan_keterangan = [];
-                
+
                 const rujukanRows = document.querySelectorAll('#rujukanTable tbody tr');
                 rujukanRows.forEach(row => {
                     const cells = row.querySelectorAll('td');
@@ -1399,27 +1449,27 @@
                     formDataObj.rujukan_waktu.push(cells[4].querySelector('input').value);
                     formDataObj.rujukan_keterangan.push(cells[5].querySelector('input').value);
                 });
-                
+
                 // Get saved data
                 let savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
-                
+
                 // Check if we're in edit mode
                 const formMode = document.getElementById('formMode').value;
                 const editItemId = parseInt(document.getElementById('editItemId').value);
-                
+
                 if (formMode === 'edit' && editItemId) {
                     // Update existing record
                     const index = savedData.findIndex(item => item.id === editItemId);
-                    
+
                     if (index !== -1) {
                         // Preserve original id and creation date
                         formDataObj.id = editItemId;
                         formDataObj.date = savedData[index].date;
                         formDataObj.updated = new Date().toISOString(); // Add update timestamp
-                        
+
                         // Replace the item at the index
                         savedData[index] = formDataObj;
-                        
+
                         showToast('Dokumentasi berhasil diperbarui!', 'success');
                     } else {
                         showToast('Data yang diedit tidak ditemukan', 'error');
@@ -1430,31 +1480,31 @@
                     formDataObj.id = Date.now(); // Use timestamp as ID
                     formDataObj.date = new Date().toISOString();
                     savedData.push(formDataObj);
-                    
+
                     showToast('Dokumentasi berhasil disimpan!', 'success');
                 }
-                
+
                 // Save updated data
                 localStorage.setItem('medicalDocuments', JSON.stringify(savedData));
-                
+
                 // Update dashboard and history
                 updateDashboard();
                 updateHistory();
-                
+
                 // Reset form mode
                 document.getElementById('formMode').value = 'add';
                 document.getElementById('editItemId').value = '';
                 document.getElementById('formTitle').textContent = 'Form Dokumentasi Tim Medis';
                 document.getElementById('submitBtn').textContent = 'Simpan Dokumentasi';
                 document.getElementById('cancelBtn').style.display = 'none';
-                
+
                 // Reset form and set new date/time
                 this.reset();
                 setCurrentDateTime();
-                
+
                 // Add default rows back
                 resetTableRows();
-                
+
                 // Go to dashboard
                 document.querySelectorAll('.nav-link').forEach(link => {
                     if (link.getAttribute('data-target') === 'dashboard') {
@@ -1462,9 +1512,9 @@
                     }
                 });
             });
-            
+
             // Cancel edit button
-            document.getElementById('cancelBtn').addEventListener('click', function() {
+            document.getElementById('cancelBtn').addEventListener('click', function () {
                 if (confirm('Batalkan perubahan? Semua perubahan akan hilang.')) {
                     // Reset form mode
                     document.getElementById('formMode').value = 'add';
@@ -1472,22 +1522,22 @@
                     document.getElementById('formTitle').textContent = 'Form Dokumentasi Tim Medis';
                     document.getElementById('submitBtn').textContent = 'Simpan Dokumentasi';
                     this.style.display = 'none';
-                    
+
                     // Reset form and tables
                     document.getElementById('medicalForm').reset();
                     setCurrentDateTime();
                     resetTableRows();
-                    
+
                     // Show toast
                     showToast('Pengeditan dibatalkan', 'info');
                 }
             });
-            
+
             // Function to enable edit mode for an existing record
             function editItem(id) {
                 const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
                 const item = savedData.find(doc => doc.id === id);
-                
+
                 if (item) {
                     // Switch to form view
                     document.querySelectorAll('.nav-link').forEach(link => {
@@ -1501,7 +1551,7 @@
                     document.getElementById('formTitle').textContent = 'Edit Dokumentasi Tim Medis';
                     document.getElementById('submitBtn').textContent = 'Simpan Perubahan';
                     document.getElementById('cancelBtn').style.display = 'inline-block';
-                    
+
                     // Fill form with data - notice we're not setting the time, it will be current real-time
                     document.getElementById('petugas').value = item.petugas;
                     document.getElementById('tanggal').value = item.tanggal;
@@ -1511,23 +1561,22 @@
                     document.getElementById('kendala').value = item.kendala || '';
                     document.getElementById('solusi').value = item.solusi || '';
                     document.getElementById('rekomendasi').value = item.rekomendasi || '';
-                    
+
                     // Clear all tables
                     document.querySelector('#dataKasusTable tbody').innerHTML = '';
                     document.querySelector('#penggunaanObatTable tbody').innerHTML = '';
                     document.querySelector('#perlengkapanTable tbody').innerHTML = '';
                     document.querySelector('#rujukanTable tbody').innerHTML = '';
-                    
+
                     // Fill Kasus table
                     if (Array.isArray(item.kasus_nama)) {
                         for (let i = 0; i < item.kasus_nama.length; i++) {
                             if (item.kasus_nama[i]) {
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
-                                    <td>${i+1}</td>
+                                    <td>${i + 1}</td>
                                     <td><input type="time" name="kasus_waktu[]" value="${item.kasus_waktu[i] || ''}"></td>
                                     <td><input type="text" name="kasus_nama[]" value="${item.kasus_nama[i] || ''}"></td>
-                                    <td><input type="number" name="kasus_usia[]" min="0" step="1" value="${item.kasus_usia[i] || ''}"></td>
                                     <td>
                                         <select name="kasus_jk[]">
                                             <option value="L" ${(item.kasus_jk[i] === 'L') ? 'selected' : ''}>Laki-laki</option>
@@ -1543,14 +1592,13 @@
                             }
                         }
                     }
-                    
+
                     // If no kasus data, add empty row
                     if (document.querySelector('#dataKasusTable tbody').children.length === 0) {
                         addTableRow('dataKasusTable', [
                             1,
                             '<input type="time" name="kasus_waktu[]">',
                             '<input type="text" name="kasus_nama[]">',
-                            '<input type="number" name="kasus_usia[]" min="0" step="1">',
                             '<select name="kasus_jk[]"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select>',
                             '<input type="text" name="kasus_keluhan[]">',
                             '<input type="text" name="kasus_penanganan[]">',
@@ -1558,14 +1606,14 @@
                             '<button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>'
                         ]);
                     }
-                    
+
                     // Fill Obat table
                     if (Array.isArray(item.obat_nama)) {
                         for (let i = 0; i < item.obat_nama.length; i++) {
                             if (item.obat_nama[i]) {
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
-                                    <td>${i+1}</td>
+                                    <td>${i + 1}</td>
                                     <td><input type="text" name="obat_nama[]" value="${item.obat_nama[i] || ''}"></td>
                                     <td><input type="number" name="obat_awal[]" class="obat-awal" min="0" step="0.01" value="${item.obat_awal[i] || '0'}"></td>
                                     <td><input type="number" name="obat_terpakai[]" class="obat-terpakai" min="0" step="0.01" value="${item.obat_terpakai[i] || '0'}"></td>
@@ -1577,7 +1625,7 @@
                             }
                         }
                     }
-                    
+
                     // If no obat data, add empty row
                     if (document.querySelector('#penggunaanObatTable tbody').children.length === 0) {
                         addTableRow('penggunaanObatTable', [
@@ -1590,14 +1638,14 @@
                             '<button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>'
                         ]);
                     }
-                    
+
                     // Fill Perlengkapan table
                     if (Array.isArray(item.perlengkapan_nama)) {
                         for (let i = 0; i < item.perlengkapan_nama.length; i++) {
                             if (item.perlengkapan_nama[i]) {
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
-                                    <td>${i+1}</td>
+                                    <td>${i + 1}</td>
                                     <td><input type="text" name="perlengkapan_nama[]" value="${item.perlengkapan_nama[i] || ''}"></td>
                                     <td>
                                         <select name="perlengkapan_awal[]">
@@ -1622,7 +1670,7 @@
                             }
                         }
                     }
-                    
+
                     // If no perlengkapan data, add empty row
                     if (document.querySelector('#perlengkapanTable tbody').children.length === 0) {
                         addTableRow('perlengkapanTable', [
@@ -1634,14 +1682,14 @@
                             '<button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>'
                         ]);
                     }
-                    
+
                     // Fill Rujukan table
                     if (Array.isArray(item.rujukan_nama)) {
                         for (let i = 0; i < item.rujukan_nama.length; i++) {
                             if (item.rujukan_nama[i]) {
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
-                                    <td>${i+1}</td>
+                                    <td>${i + 1}</td>
                                     <td><input type="text" name="rujukan_nama[]" value="${item.rujukan_nama[i] || ''}"></td>
                                     <td><input type="text" name="rujukan_alasan[]" value="${item.rujukan_alasan[i] || ''}"></td>
                                     <td><input type="text" name="rujukan_tujuan[]" value="${item.rujukan_tujuan[i] || ''}"></td>
@@ -1653,7 +1701,7 @@
                             }
                         }
                     }
-                    
+
                     // If no rujukan data, add empty row
                     if (document.querySelector('#rujukanTable tbody').children.length === 0) {
                         addTableRow('rujukanTable', [
@@ -1666,35 +1714,35 @@
                             '<button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button>'
                         ]);
                     }
-                    
+
                     // Re-attach event listeners
                     document.querySelectorAll('.delete-row-btn').forEach(button => {
-                        button.addEventListener('click', function() {
+                        button.addEventListener('click', function () {
                             confirmDeleteRow(this);
                         });
                     });
-                    
+
                     // Re-initialize sisa calculation
                     addSisaCalculationEvents();
-                    
+
                     // Start real-time clock if not already running
                     startRealtimeClock();
-                    
+
                     showToast(`Mengedit dokumentasi: ${item.cabor} - ${item.lokasi}`, 'info');
                 } else {
                     showToast('Data tidak ditemukan', 'error');
                 }
             }
-            
+
             // Basic form validation
             function validateForm() {
                 const petugas = document.getElementById('petugas').value;
                 const lokasi = document.getElementById('lokasi').value;
                 const cabor = document.getElementById('cabor').value;
-                
+
                 return petugas.trim() !== '' && lokasi.trim() !== '' && cabor.trim() !== '';
             }
-            
+
             // Reset table to initial state with one empty row each
             function resetTableRows() {
                 // Reset Kasus table
@@ -1703,7 +1751,6 @@
                         <td>1</td>
                         <td><input type="time" name="kasus_waktu[]"></td>
                         <td><input type="text" name="kasus_nama[]"></td>
-                        <td><input type="number" name="kasus_usia[]" min="0" step="1"></td>
                         <td>
                             <select name="kasus_jk[]">
                                 <option value="L">Laki-laki</option>
@@ -1716,7 +1763,7 @@
                         <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button></td>
                     </tr>
                 `;
-                
+
                 // Reset Obat table
                 document.querySelector('#penggunaanObatTable tbody').innerHTML = `
                     <tr>
@@ -1729,7 +1776,7 @@
                         <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button></td>
                     </tr>
                 `;
-                
+
                 // Reset Perlengkapan table
                 document.querySelector('#perlengkapanTable tbody').innerHTML = `
                     <tr>
@@ -1755,7 +1802,7 @@
                         <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button></td>
                     </tr>
                 `;
-                
+
                 // Reset Rujukan table
                 document.querySelector('#rujukanTable tbody').innerHTML = `
                     <tr>
@@ -1768,48 +1815,48 @@
                         <td><button type="button" class="delete-row-btn"><i class="fas fa-trash"></i></button></td>
                     </tr>
                 `;
-                
+
                 // Re-attach event listeners
                 document.querySelectorAll('.delete-row-btn').forEach(button => {
-                    button.addEventListener('click', function() {
+                    button.addEventListener('click', function () {
                         confirmDeleteRow(this);
                     });
                 });
-                
+
                 // Re-initialize sisa calculation
                 addSisaCalculationEvents();
             }
-            
+
             // Generate PDF
-            document.getElementById('generatePDF').addEventListener('click', function() {
+            document.getElementById('generatePDF').addEventListener('click', function () {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
-                
+
                 // Set font to Times New Roman
                 doc.setFont("times", "normal");
                 doc.setFontSize(12);
-                
+
                 // Add header
                 doc.setFontSize(16);
                 doc.text("DOKUMENTASI & ADMINISTRASI TIM MEDIC", 105, 20, { align: 'center' });
                 doc.setFontSize(12);
-                
+
                 // Add form data
                 const petugas = document.getElementById('petugas').value;
                 const tanggal = document.getElementById('tanggal').value;
                 const lokasi = document.getElementById('lokasi').value;
                 const cabor = document.getElementById('cabor').value;
                 const waktu = document.getElementById('waktu').value;
-                
+
                 doc.text(`Nama Petugas: ${petugas}`, 20, 40);
                 doc.text(`Tanggal: ${tanggal}`, 20, 48);
                 doc.text(`Lokasi Kegiatan: ${lokasi}`, 20, 56);
                 doc.text(`Cabang Olahraga: ${cabor}`, 20, 64);
                 doc.text(`Waktu: ${waktu}`, 20, 72);
-                
+
                 // Data Kasus table
                 doc.text("DATA KASUS", 20, 85);
-                
+
                 const kasusData = [];
                 const kasusRows = document.querySelectorAll('#dataKasusTable tbody tr');
                 kasusRows.forEach((row, index) => {
@@ -1818,17 +1865,16 @@
                     rowData.push(cells[0].textContent);
                     rowData.push(cells[1].querySelector('input').value);
                     rowData.push(cells[2].querySelector('input').value);
-                    rowData.push(cells[3].querySelector('input').value);
-                    rowData.push(cells[4].querySelector('select').value);
+                    rowData.push(cells[3].querySelector('select').value);
+                    rowData.push(cells[4].querySelector('input').value);
                     rowData.push(cells[5].querySelector('input').value);
                     rowData.push(cells[6].querySelector('input').value);
-                    rowData.push(cells[7].querySelector('input').value);
                     kasusData.push(rowData);
                 });
-                
+
                 doc.autoTable({
                     startY: 90,
-                    head: [['No.', 'Waktu', 'Nama Pasien', 'Usia', 'Jenis Kelamin', 'Keluhan/Cedera', 'Penanganan', 'Hasil']],
+                    head: [['No.', 'Waktu', 'Nama Pasien', 'Jenis Kelamin', 'Keluhan/Cedera', 'Penanganan', 'Hasil']],
                     body: kasusData,
                     theme: 'grid',
                     styles: {
@@ -1836,11 +1882,11 @@
                         fontSize: 10
                     }
                 });
-                
+
                 // Penggunaan Obat table
                 let currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("PENGGUNAAN OBAT & ALAT MEDIS", 20, currentY);
-                
+
                 const obatData = [];
                 const obatRows = document.querySelectorAll('#penggunaanObatTable tbody tr');
                 obatRows.forEach((row, index) => {
@@ -1854,7 +1900,7 @@
                     rowData.push(cells[5].querySelector('input').value); // Keterangan
                     obatData.push(rowData);
                 });
-                
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No.', 'Nama Item', 'Jumlah Awal', 'Jumlah Terpakai', 'Sisa', 'Keterangan']],
@@ -1865,11 +1911,11 @@
                         fontSize: 10
                     }
                 });
-                
+
                 // Perlengkapan table
                 currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("CATATAN PERLENGKAPAN DAN ALAT MEDIS", 20, currentY);
-                
+
                 const perlengkapanData = [];
                 const perlengkapanRows = document.querySelectorAll('#perlengkapanTable tbody tr');
                 perlengkapanRows.forEach((row, index) => {
@@ -1882,7 +1928,7 @@
                     rowData.push(cells[4].querySelector('input').value);
                     perlengkapanData.push(rowData);
                 });
-                
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No.', 'Nama Perlengkapan', 'Kondisi Awal', 'Kondisi Akhir', 'Keterangan']],
@@ -1893,11 +1939,11 @@
                         fontSize: 10
                     }
                 });
-                
+
                 // Rujukan Medis table
                 currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("RUJUKAN MEDIS", 20, currentY);
-                
+
                 const rujukanData = [];
                 const rujukanRows = document.querySelectorAll('#rujukanTable tbody tr');
                 rujukanRows.forEach((row, index) => {
@@ -1911,7 +1957,7 @@
                     rowData.push(cells[5].querySelector('input').value);
                     rujukanData.push(rowData);
                 });
-                
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No.', 'Nama Pasien', 'Alasan Rujukan', 'Fasilitas Kesehatan Tujuan', 'Waktu Rujukan', 'Keterangan']],
@@ -1922,7 +1968,7 @@
                         fontSize: 10
                     }
                 });
-                
+
                 // Add new page if needed
                 if (doc.lastAutoTable.finalY > 240) {
                     doc.addPage();
@@ -1930,51 +1976,57 @@
                 } else {
                     currentY = doc.lastAutoTable.finalY + 15;
                 }
-                
+
                 // Evaluasi
                 doc.text("EVALUASI KEGIATAN", 20, currentY);
                 currentY += 10;
-                
+
                 doc.text("Kendala yang Dihadapi:", 20, currentY);
                 currentY += 7;
                 doc.text(document.getElementById('kendala').value || "-", 25, currentY);
                 currentY += 15;
-                
+
                 doc.text("Solusi yang Dilakukan:", 20, currentY);
                 currentY += 7;
                 doc.text(document.getElementById('solusi').value || "-", 25, currentY);
                 currentY += 15;
-                
+
                 doc.text("Rekomendasi untuk Kegiatan Selanjutnya:", 20, currentY);
                 currentY += 7;
                 doc.text(document.getElementById('rekomendasi').value || "-", 25, currentY);
                 currentY += 20;
-                
+
                 // Tanda tangan
                 doc.text("Petugas Medis", 40, currentY);
                 doc.text("Koordinator Acara", 150, currentY);
-                
+
                 currentY += 20;
                 doc.text("________________", 40, currentY);
                 doc.text("________________", 150, currentY);
-                
+
                 // Save the PDF
                 doc.save(`Dokumentasi_Tim_Medis_${tanggal}_${cabor}.pdf`);
                 showToast('PDF berhasil diunduh', 'success');
             });
-            
+
             // Update dashboard
             function updateDashboard() {
                 const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
-                
-                // Update card values
+
+                // Update total dokumentasi
                 document.querySelector('.dashboard-card:nth-child(1) .card-value').textContent = savedData.length;
-                
-                // Count today's cases
+
+                // Count today's cases from all kasus data
                 const today = new Date().toISOString().split('T')[0];
-                const todayCases = savedData.filter(item => item.tanggal === today).length;
-                document.querySelector('.dashboard-card:nth-child(2) .card-value').textContent = todayCases;
-                
+                let todayCasesCount = 0;
+                savedData.forEach(item => {
+                    if (item.tanggal === today && Array.isArray(item.kasus_nama)) {
+                        // Count non-empty kasus entries for today
+                        todayCasesCount += item.kasus_nama.filter(nama => nama && nama.trim() !== '').length;
+                    }
+                });
+                document.querySelector('.dashboard-card:nth-child(2) .card-value').textContent = todayCasesCount;
+
                 // Count rujukan
                 let rujukanCount = 0;
                 savedData.forEach(item => {
@@ -1983,15 +2035,15 @@
                     }
                 });
                 document.querySelector('.dashboard-card:nth-child(3) .card-value').textContent = rujukanCount;
-                
+
                 // Count unique cabang olahraga
                 const uniqueCabor = new Set(savedData.map(item => item.cabor));
                 document.querySelector('.dashboard-card:nth-child(4) .card-value').textContent = uniqueCabor.size;
-                
+
                 // Update recent activities
                 const recentActivities = document.getElementById('recent-activities');
                 recentActivities.innerHTML = '';
-                
+
                 if (savedData.length === 0) {
                     recentActivities.innerHTML = '<div class="history-item">Belum ada aktivitas terbaru</div>';
                 } else {
@@ -2004,13 +2056,13 @@
                     });
                 }
             }
-            
+
             // Update history
             function updateHistory() {
                 const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
                 const historyList = document.getElementById('history-list');
                 historyList.innerHTML = '';
-                
+
                 if (savedData.length === 0) {
                     historyList.innerHTML = '<div class="history-item">Belum ada riwayat dokumentasi</div>';
                 } else {
@@ -2030,24 +2082,24 @@
                         `;
                         historyList.appendChild(div);
                     });
-                    
+
                     // Add event listeners to buttons
                     document.querySelectorAll('.view-btn').forEach(button => {
-                        button.addEventListener('click', function() {
+                        button.addEventListener('click', function () {
                             const id = parseInt(this.getAttribute('data-id'));
                             viewItemDetail(id);
                         });
                     });
-                    
+
                     document.querySelectorAll('.edit-btn').forEach(button => {
-                        button.addEventListener('click', function() {
+                        button.addEventListener('click', function () {
                             const id = parseInt(this.getAttribute('data-id'));
                             editItem(id);
                         });
                     });
-                    
+
                     document.querySelectorAll('.download-btn').forEach(button => {
-                        button.addEventListener('click', function() {
+                        button.addEventListener('click', function () {
                             const id = parseInt(this.getAttribute('data-id'));
                             const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
                             const item = savedData.find(doc => doc.id === id);
@@ -2057,27 +2109,27 @@
                             }
                         });
                     });
-                    
+
                     document.querySelectorAll('.delete-btn').forEach(button => {
-                        button.addEventListener('click', function() {
+                        button.addEventListener('click', function () {
                             const id = parseInt(this.getAttribute('data-id'));
                             confirmDeleteItem(id);
                         });
                     });
                 }
             }
-            
+
             // Function to view item detail in modal
             function viewItemDetail(id) {
                 const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
                 const item = savedData.find(doc => doc.id === id);
-                
+
                 if (item) {
                     const detailContent = document.getElementById('detailContent');
-                    
+
                     // Format date
                     const formattedDate = new Date(item.date).toLocaleDateString('id-ID');
-                    
+
                     let html = `
                         <div class="detail-header">
                             <h3>${item.cabor} - ${item.lokasi}</h3>
@@ -2086,7 +2138,7 @@
                             <p><strong>Waktu:</strong> ${item.waktu}</p>
                         </div>
                     `;
-                    
+
                     // Kasus data
                     if (Array.isArray(item.kasus_nama) && item.kasus_nama.some(name => name && name.trim() !== '')) {
                         html += `<h4><i class="fas fa-user-injured"></i> Data Kasus</h4>`;
@@ -2096,7 +2148,6 @@
                                     <th>No</th>
                                     <th>Waktu</th>
                                     <th>Nama Pasien</th>
-                                    <th>Usia</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Keluhan</th>
                                     <th>Penanganan</th>
@@ -2104,14 +2155,13 @@
                                 </tr>
                             </thead>
                             <tbody>`;
-                            
+
                         for (let i = 0; i < item.kasus_nama.length; i++) {
                             if (item.kasus_nama[i] && item.kasus_nama[i].trim() !== '') {
                                 html += `<tr>
-                                    <td>${i+1}</td>
+                                    <td>${i + 1}</td>
                                     <td>${item.kasus_waktu ? item.kasus_waktu[i] || '-' : '-'}</td>
                                     <td>${item.kasus_nama[i] || '-'}</td>
-                                    <td>${item.kasus_usia ? item.kasus_usia[i] || '-' : '-'}</td>
                                     <td>${item.kasus_jk ? (item.kasus_jk[i] === 'L' ? 'Laki-laki' : 'Perempuan') : '-'}</td>
                                     <td>${item.kasus_keluhan ? item.kasus_keluhan[i] || '-' : '-'}</td>
                                     <td>${item.kasus_penanganan ? item.kasus_penanganan[i] || '-' : '-'}</td>
@@ -2119,13 +2169,13 @@
                                 </tr>`;
                             }
                         }
-                        
+
                         html += `</tbody></table></div>`;
                     } else {
                         html += `<h4><i class="fas fa-user-injured"></i> Data Kasus</h4>`;
                         html += `<p>Tidak ada data kasus.</p>`;
                     }
-                    
+
                     // Obat data
                     if (Array.isArray(item.obat_nama) && item.obat_nama.some(name => name && name.trim() !== '')) {
                         html += `<h4><i class="fas fa-pills"></i> Penggunaan Obat & Alat Medis</h4>`;
@@ -2141,11 +2191,11 @@
                                 </tr>
                             </thead>
                             <tbody>`;
-                            
+
                         for (let i = 0; i < item.obat_nama.length; i++) {
                             if (item.obat_nama[i] && item.obat_nama[i].trim() !== '') {
                                 html += `<tr>
-                                    <td>${i+1}</td>
+                                    <td>${i + 1}</td>
                                     <td>${item.obat_nama[i] || '-'}</td>
                                     <td>${item.obat_awal ? item.obat_awal[i] || '-' : '-'}</td>
                                     <td>${item.obat_terpakai ? item.obat_terpakai[i] || '-' : '-'}</td>
@@ -2154,13 +2204,13 @@
                                 </tr>`;
                             }
                         }
-                        
+
                         html += `</tbody></table></div>`;
                     } else {
                         html += `<h4><i class="fas fa-pills"></i> Penggunaan Obat & Alat Medis</h4>`;
                         html += `<p>Tidak ada data penggunaan obat & alat medis.</p>`;
                     }
-                    
+
                     // Perlengkapan data
                     if (Array.isArray(item.perlengkapan_nama) && item.perlengkapan_nama.some(name => name && name.trim() !== '')) {
                         html += `<h4><i class="fas fa-toolbox"></i> Catatan Perlengkapan dan Alat Medis</h4>`;
@@ -2175,11 +2225,11 @@
                                 </tr>
                             </thead>
                             <tbody>`;
-                            
+
                         for (let i = 0; i < item.perlengkapan_nama.length; i++) {
                             if (item.perlengkapan_nama[i] && item.perlengkapan_nama[i].trim() !== '') {
                                 html += `<tr>
-                                    <td>${i+1}</td>
+                                    <td>${i + 1}</td>
                                     <td>${item.perlengkapan_nama[i] || '-'}</td>
                                     <td>${item.perlengkapan_awal ? item.perlengkapan_awal[i] || '-' : '-'}</td>
                                     <td>${item.perlengkapan_akhir ? item.perlengkapan_akhir[i] || '-' : '-'}</td>
@@ -2187,13 +2237,13 @@
                                 </tr>`;
                             }
                         }
-                        
+
                         html += `</tbody></table></div>`;
                     } else {
                         html += `<h4><i class="fas fa-toolbox"></i> Catatan Perlengkapan dan Alat Medis</h4>`;
                         html += `<p>Tidak ada data perlengkapan.</p>`;
                     }
-                    
+
                     // Rujukan data
                     if (Array.isArray(item.rujukan_nama) && item.rujukan_nama.some(name => name && name.trim() !== '')) {
                         html += `<h4><i class="fas fa-ambulance"></i> Rujukan Medis</h4>`;
@@ -2209,11 +2259,11 @@
                                 </tr>
                             </thead>
                             <tbody>`;
-                            
+
                         for (let i = 0; i < item.rujukan_nama.length; i++) {
                             if (item.rujukan_nama[i] && item.rujukan_nama[i].trim() !== '') {
                                 html += `<tr>
-                                    <td>${i+1}</td>
+                                    <td>${i + 1}</td>
                                     <td>${item.rujukan_nama[i] || '-'}</td>
                                     <td>${item.rujukan_alasan ? item.rujukan_alasan[i] || '-' : '-'}</td>
                                     <td>${item.rujukan_tujuan ? item.rujukan_tujuan[i] || '-' : '-'}</td>
@@ -2222,13 +2272,13 @@
                                 </tr>`;
                             }
                         }
-                        
+
                         html += `</tbody></table></div>`;
                     } else {
                         html += `<h4><i class="fas fa-ambulance"></i> Rujukan Medis</h4>`;
                         html += `<p>Tidak ada data rujukan.</p>`;
                     }
-                    
+
                     // Evaluasi
                     html += `<h4><i class="fas fa-clipboard-check"></i> Evaluasi Kegiatan</h4>`;
                     html += `
@@ -2243,77 +2293,76 @@
                             <p>${item.rekomendasi || '-'}</p>
                         </div>
                     `;
-                    
+
                     detailContent.innerHTML = html;
                     openModal('detailModal');
                 } else {
                     showToast('Data tidak ditemukan', 'error');
                 }
             }
-            
+
             // Function to confirm delete item
             function confirmDeleteItem(id) {
                 const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
                 const item = savedData.find(doc => doc.id === id);
-                
+
                 if (item) {
                     document.getElementById('confirmMessage').textContent = `Apakah Anda yakin ingin menghapus dokumentasi "${item.cabor} - ${item.lokasi}"?`;
-                    
+
                     // Set up confirm modal buttons
-                    document.getElementById('confirmAction').onclick = function() {
+                    document.getElementById('confirmAction').onclick = function () {
                         const updatedData = savedData.filter(doc => doc.id !== id);
                         localStorage.setItem('medicalDocuments', JSON.stringify(updatedData));
-                        
+
                         closeModal(document.getElementById('confirmModal'));
                         showToast('Dokumentasi berhasil dihapus', 'success');
-                        
+
                         updateDashboard();
                         updateHistory();
                     };
-                    
-                    document.getElementById('cancelAction').onclick = function() {
+
+                    document.getElementById('cancelAction').onclick = function () {
                         closeModal(document.getElementById('confirmModal'));
                     };
-                    
+
                     openModal('confirmModal');
                 } else {
                     showToast('Data tidak ditemukan', 'error');
                 }
             }
-            
+
             // Generate PDF from stored data
             function generatePDFFromData(data) {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
-                
+
                 // Set font to Times New Roman
                 doc.setFont("times", "normal");
                 doc.setFontSize(12);
-                
+
                 // Add header
                 doc.setFontSize(16);
                 doc.text("DOKUMENTASI & ADMINISTRASI TIM MEDIC", 105, 20, { align: 'center' });
                 doc.setFontSize(12);
-                
+
                 // Add form data
                 doc.text(`Nama Petugas: ${data.petugas}`, 20, 40);
                 doc.text(`Tanggal: ${data.tanggal}`, 20, 48);
                 doc.text(`Lokasi Kegiatan: ${data.lokasi}`, 20, 56);
                 doc.text(`Cabang Olahraga: ${data.cabor}`, 20, 64);
                 doc.text(`Waktu: ${data.waktu}`, 20, 72);
-                
+
                 // Data Kasus table
                 doc.text("DATA KASUS", 20, 85);
-                
+
                 const kasusData = [];
                 if (Array.isArray(data.kasus_nama)) {
                     for (let i = 0; i < data.kasus_nama.length; i++) {
                         if (data.kasus_nama[i] && data.kasus_nama[i].trim() !== '') {
                             kasusData.push([
-                                i+1,
+                                i + 1,
                                 data.kasus_waktu ? data.kasus_waktu[i] || '' : '',
                                 data.kasus_nama[i] || '',
-                                data.kasus_usia ? data.kasus_usia[i] || '' : '',
                                 data.kasus_jk ? data.kasus_jk[i] || '' : '',
                                 data.kasus_keluhan ? data.kasus_keluhan[i] || '' : '',
                                 data.kasus_penanganan ? data.kasus_penanganan[i] || '' : '',
@@ -2322,14 +2371,14 @@
                         }
                     }
                 }
-                
+
                 if (kasusData.length === 0) {
-                    kasusData.push(['', '', '', '', '', '', '', '']);
+                    kasusData.push(['', '', '', '', '', '', '']);
                 }
-                
+
                 doc.autoTable({
                     startY: 90,
-                    head: [['No.', 'Waktu', 'Nama Pasien', 'Usia', 'Jenis Kelamin', 'Keluhan/Cedera', 'Penanganan', 'Hasil']],
+                    head: [['No.', 'Waktu', 'Nama Pasien', 'Jenis Kelamin', 'Keluhan/Cedera', 'Penanganan', 'Hasil']],
                     body: kasusData,
                     theme: 'grid',
                     styles: {
@@ -2337,17 +2386,17 @@
                         fontSize: 10
                     }
                 });
-                
+
                 // Continue with other tables and sections...
                 let currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("PENGGUNAAN OBAT & ALAT MEDIS", 20, currentY);
-                
+
                 const obatData = [];
                 if (Array.isArray(data.obat_nama)) {
                     for (let i = 0; i < data.obat_nama.length; i++) {
                         if (data.obat_nama[i] && data.obat_nama[i].trim() !== '') {
                             obatData.push([
-                                i+1,
+                                i + 1,
                                 data.obat_nama[i] || '',
                                 data.obat_awal ? data.obat_awal[i] || '' : '',
                                 data.obat_terpakai ? data.obat_terpakai[i] || '' : '',
@@ -2357,11 +2406,11 @@
                         }
                     }
                 }
-                
+
                 if (obatData.length === 0) {
                     obatData.push(['', '', '', '', '', '']);
                 }
-                
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No.', 'Nama Item', 'Jumlah Awal', 'Jumlah Terpakai', 'Sisa', 'Keterangan']],
@@ -2372,17 +2421,17 @@
                         fontSize: 10
                     }
                 });
-                
+
                 // Perlengkapan table
                 currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("CATATAN PERLENGKAPAN DAN ALAT MEDIS", 20, currentY);
-                
+
                 const perlengkapanData = [];
                 if (Array.isArray(data.perlengkapan_nama)) {
                     for (let i = 0; i < data.perlengkapan_nama.length; i++) {
                         if (data.perlengkapan_nama[i] && data.perlengkapan_nama[i].trim() !== '') {
                             perlengkapanData.push([
-                                i+1,
+                                i + 1,
                                 data.perlengkapan_nama[i] || '',
                                 data.perlengkapan_awal ? data.perlengkapan_awal[i] || '' : '',
                                 data.perlengkapan_akhir ? data.perlengkapan_akhir[i] || '' : '',
@@ -2391,11 +2440,11 @@
                         }
                     }
                 }
-                
+
                 if (perlengkapanData.length === 0) {
                     perlengkapanData.push(['', '', '', '', '']);
                 }
-                
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No.', 'Nama Perlengkapan', 'Kondisi Awal', 'Kondisi Akhir', 'Keterangan']],
@@ -2406,17 +2455,17 @@
                         fontSize: 10
                     }
                 });
-                
+
                 // Rujukan Medis table
                 currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("RUJUKAN MEDIS", 20, currentY);
-                
+
                 const rujukanData = [];
                 if (Array.isArray(data.rujukan_nama)) {
                     for (let i = 0; i < data.rujukan_nama.length; i++) {
                         if (data.rujukan_nama[i] && data.rujukan_nama[i].trim() !== '') {
                             rujukanData.push([
-                                i+1,
+                                i + 1,
                                 data.rujukan_nama[i] || '',
                                 data.rujukan_alasan ? data.rujukan_alasan[i] || '' : '',
                                 data.rujukan_tujuan ? data.rujukan_tujuan[i] || '' : '',
@@ -2426,11 +2475,11 @@
                         }
                     }
                 }
-                
+
                 if (rujukanData.length === 0) {
                     rujukanData.push(['', '', '', '', '', '']);
                 }
-                
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No.', 'Nama Pasien', 'Alasan Rujukan', 'Fasilitas Kesehatan Tujuan', 'Waktu Rujukan', 'Keterangan']],
@@ -2441,7 +2490,7 @@
                         fontSize: 10
                     }
                 });
-                
+
                 // Add new page if needed
                 if (doc.lastAutoTable.finalY > 240) {
                     doc.addPage();
@@ -2449,42 +2498,44 @@
                 } else {
                     currentY = doc.lastAutoTable.finalY + 15;
                 }
-                
+
                 // Evaluasi
                 doc.text("EVALUASI KEGIATAN", 20, currentY);
                 currentY += 10;
-                
+
                 doc.text("Kendala yang Dihadapi:", 20, currentY);
                 currentY += 7;
                 doc.text(data.kendala || "-", 25, currentY);
                 currentY += 15;
-                
+
                 doc.text("Solusi yang Dilakukan:", 20, currentY);
                 currentY += 7;
                 doc.text(data.solusi || "-", 25, currentY);
                 currentY += 15;
-                
+
                 doc.text("Rekomendasi untuk Kegiatan Selanjutnya:", 20, currentY);
                 currentY += 7;
                 doc.text(data.rekomendasi || "-", 25, currentY);
                 currentY += 20;
-                
+
                 // Tanda tangan
                 doc.text("Petugas Medis", 40, currentY);
                 doc.text("Koordinator Acara", 150, currentY);
-                
+
                 currentY += 20;
                 doc.text("________________", 40, currentY);
                 doc.text("________________", 150, currentY);
-                
+
                 // Save the PDF
                 doc.save(`Dokumentasi_Tim_Medis_${data.tanggal}_${data.cabor}.pdf`);
             }
-            
+
             // Initialize dashboard and history
             updateDashboard();
             updateHistory();
         });
     </script>
 </body>
+
 </html>
+``` 
