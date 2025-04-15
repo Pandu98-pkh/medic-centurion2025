@@ -1955,11 +1955,11 @@
                 doc.text("Koordinator Acara", 150, currentY);
                 
                 currentY += 20;
-                doc.text("________________", 30, currentY);
-                doc.text("________________", 140, currentY);
+                doc.text("________________", 40, currentY);
+                doc.text("________________", 150, currentY);
                 
                 // Save the PDF
-                doc.save(`Dokumentasi_Tim_Medis_${tanggal}.pdf`);
+                doc.save(`Dokumentasi_Tim_Medis_${tanggal}_${cabor}.pdf`);
                 showToast('PDF berhasil diunduh', 'success');
             });
             
@@ -2474,11 +2474,11 @@
                 doc.text("Koordinator Acara", 150, currentY);
                 
                 currentY += 20;
-                doc.text("________________", 30, currentY);
-                doc.text("________________", 140, currentY);
+                doc.text("________________", 40, currentY);
+                doc.text("________________", 150, currentY);
                 
                 // Save the PDF
-                doc.save(`Dokumentasi_Tim_Medis_${data.tanggal}.pdf`);
+                doc.save(`Dokumentasi_Tim_Medis_${data.tanggal}_${data.cabor}.pdf`);
             }
             
             // Initialize dashboard and history
