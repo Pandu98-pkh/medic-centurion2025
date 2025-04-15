@@ -432,11 +432,13 @@
 
             .container {
                 width: 100%;
-                padding: 5px;
+                padding: 10px;
+                box-sizing: border-box;
             }
 
             .section {
                 padding: 10px;
+                min-width: 0;
             }
 
             button {
@@ -469,6 +471,11 @@
                 flex-direction: column;
             }
 
+            .history-actions button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
             nav ul {
                 display: flex;
                 justify-content: space-between;
@@ -486,8 +493,112 @@
             }
 
             .modal {
-                width: 95%;
+                width: 90%;
+                margin: 0 5%;
             }
+
+            /* Fix container padding */
+            input[type="text"],
+            input[type="date"],
+            input[type="time"],
+            input[type="number"],
+            select,
+            textarea {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Prevent table overflow */
+            .table-container {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: auto;
+                width: max-content;
+            }
+
+            /* Stack form info vertically */
+            .form-info-table {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .form-info-table td {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 5px 0;
+            }
+
+            .form-info-table td:first-child {
+                font-weight: bold;  
+            }
+        }
+
+        /* Add styles for form layout table */
+        .form-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .form-info-table td {
+            padding: 8px;
+            border: none;
+        }
+
+        .form-info-table td:first-child {
+            width: 150px;
+            /* Fixed width for labels */
+            white-space: nowrap;
+        }
+
+        /* Add mobile-specific styles */
+        @media screen and (max-width: 768px) {
+            .form-info-table, 
+            .form-info-table tbody,
+            .form-info-table tr,
+            .form-info-table td {
+                display: block;
+            }
+            
+            .form-info-table td:first-child {
+                width: auto;
+                padding-bottom: 2px;
+            }
+            
+            .form-info-table td:last-child {
+                margin-bottom: 12px;
+            }
+
+            /* Ensure colon is aligned */
+            .form-info-table td:first-child::after {
+                content: ":";
+            }
+        }
+
+        .btn-primary {
+            background-color: #0066cc;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
         }
     </style>
 </head>
@@ -561,30 +672,28 @@
                 <input type="hidden" id="formMode" value="add">
                 <input type="hidden" id="editItemId" value="">
 
-                <div class="form-group">
-                    <label for="petugas">Nama Petugas:</label>
-                    <input type="text" id="petugas" name="petugas" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="tanggal">Tanggal:</label>
-                    <input type="date" id="tanggal" name="tanggal" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="lokasi">Lokasi Kegiatan:</label>
-                    <input type="text" id="lokasi" name="lokasi" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="cabor">Cabang Olahraga:</label>
-                    <input type="text" id="cabor" name="cabor" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="waktu">Waktu:</label>
-                    <input type="time" id="waktu" name="waktu" required>
-                </div>
+                <table class="form-info-table">
+                    <tr>
+                        <td>Nama Petugas:</td>
+                        <td><input type="text" id="petugas" name="petugas" required></td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal:</td>
+                        <td><input type="date" id="tanggal" name="tanggal" required></td>
+                    </tr>
+                    <tr>
+                        <td>Lokasi Kegiatan:</td>
+                        <td><input type="text" id="lokasi" name="lokasi" required></td>
+                    </tr>
+                    <tr>
+                        <td>Cabang Olahraga:</td>
+                        <td><input type="text" id="cabor" name="cabor" required></td>
+                    </tr>
+                    <tr>
+                        <td>Waktu:</td>
+                        <td><input type="time" id="waktu" name="waktu" required></td>
+                    </tr>
+                </table>
 
                 <h3><i class="fas fa-user-injured"></i> Data Kasus</h3>
                 <div class="table-container">
@@ -743,9 +852,9 @@
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <button type="submit" id="submitBtn">Simpan Dokumentasi</button>
-                    <button type="button" id="cancelBtn" style="display:none;">Batal</button>
-                    <button type="button" id="generatePDF">Unduh PDF</button>
+                    <button type="submit" id="submitBtn" class="btn-success">Simpan Dokumentasi</button>
+                    <button type="button" id="cancelBtn" class="btn-warning" style="display:none;">Batal</button>
+                    <button type="button" id="generatePDF" class="btn-info">Unduh PDF</button>
                 </div>
             </form>
         </div>
@@ -914,6 +1023,27 @@
                 if (window.clockInterval) {
                     clearInterval(window.clockInterval);
                 }
+            }
+
+            // Helper function for Indonesian date formatting
+            function formatDateIndonesia(dateString) {
+                const months = [
+                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                ];
+                const date = new Date(dateString);
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                return `${day} ${month} ${year}`;
+            }
+
+            // Function to format time
+            function formatTime(dateString) {
+                const date = new Date(dateString);
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${hours}:${minutes}`;
             }
 
             // Modal functionality
@@ -1378,7 +1508,9 @@
                     waktu: document.getElementById('waktu').value,
                     kendala: document.getElementById('kendala').value,
                     solusi: document.getElementById('solusi').value,
-                    rekomendasi: document.getElementById('rekomendasi').value
+                    rekomendasi: document.getElementById('rekomendasi').value,
+                    action: document.getElementById('formMode').value === 'edit' ? 'edit' : 'add',
+                    actionText: document.getElementById('formMode').value === 'edit' ? 'mengedit' : 'mendokumentasikan'
                 };
 
                 // Collect table data
@@ -1487,6 +1619,12 @@
                 // Save updated data
                 localStorage.setItem('medicalDocuments', JSON.stringify(savedData));
 
+                // Update recent activities
+                let recentActs = JSON.parse(localStorage.getItem('recentActivities') || '[]');
+                recentActs.unshift(formDataObj);
+                recentActs = recentActs.slice(0, 5); // Keep only last 5
+                localStorage.setItem('recentActivities', JSON.stringify(recentActs));
+
                 // Update dashboard and history
                 updateDashboard();
                 updateHistory();
@@ -1513,24 +1651,47 @@
                 });
             });
 
-            // Cancel edit button
-            document.getElementById('cancelBtn').addEventListener('click', function () {
-                if (confirm('Batalkan perubahan? Semua perubahan akan hilang.')) {
+            // Fix save changes button functionality
+            document.getElementById('submitBtn').addEventListener('click', function(e) {
+                const formMode = document.getElementById('formMode').value;
+                if (formMode === 'edit') {
+                    if (validateForm()) {
+                        document.getElementById('medicalForm').dispatchEvent(new Event('submit'));
+                    } else {
+                        showToast('Mohon lengkapi data dengan benar', 'error');
+                    }
+                }
+            });
+
+            // Remove old cancel button event listener and replace with new one
+            document.getElementById('cancelBtn').addEventListener('click', function() {
+                document.getElementById('confirmMessage').textContent = 'Batalkan perubahan? Semua perubahan akan hilang.';
+                document.getElementById('confirmAction').textContent = 'Ya, Batalkan';
+                document.getElementById('confirmAction').className = 'btn btn-warning';
+                
+                // Set up confirm modal buttons
+                document.getElementById('confirmAction').onclick = function() {
                     // Reset form mode
                     document.getElementById('formMode').value = 'add';
                     document.getElementById('editItemId').value = '';
                     document.getElementById('formTitle').textContent = 'Form Dokumentasi Tim Medis';
                     document.getElementById('submitBtn').textContent = 'Simpan Dokumentasi';
-                    this.style.display = 'none';
+                    document.getElementById('cancelBtn').style.display = 'none';
 
                     // Reset form and tables
                     document.getElementById('medicalForm').reset();
                     setCurrentDateTime();
                     resetTableRows();
 
-                    // Show toast
+                    closeModal(document.getElementById('confirmModal'));
                     showToast('Pengeditan dibatalkan', 'info');
-                }
+                };
+
+                document.getElementById('cancelAction').onclick = function() {
+                    closeModal(document.getElementById('confirmModal'));
+                };
+
+                openModal('confirmModal');
             });
 
             // Function to enable edit mode for an existing record
@@ -1848,11 +2009,22 @@
                 const cabor = document.getElementById('cabor').value;
                 const waktu = document.getElementById('waktu').value;
 
-                doc.text(`Nama Petugas: ${petugas}`, 20, 40);
-                doc.text(`Tanggal: ${tanggal}`, 20, 48);
-                doc.text(`Lokasi Kegiatan: ${lokasi}`, 20, 56);
-                doc.text(`Cabang Olahraga: ${cabor}`, 20, 64);
-                doc.text(`Waktu: ${waktu}`, 20, 72);
+                const spacing = 56; // Reduced from 150 to 100 for tighter layout
+                const colonPos = 54; // Position for colons
+
+                // Helper function to draw aligned text
+                function drawFormField(label, value, yPos) {
+                    doc.text(label, 20, yPos);
+                    doc.text(":", colonPos, yPos);
+                    doc.text(value, spacing, yPos);
+                }
+
+                // Draw form fields with aligned colons
+                drawFormField("Nama Petugas", petugas, 40);
+                drawFormField("Tanggal", tanggal, 48);
+                drawFormField("Lokasi Kegiatan", lokasi, 56);
+                drawFormField("Cabang Olahraga", cabor, 64);
+                drawFormField("Waktu", waktu, 72);
 
                 // Data Kasus table
                 doc.text("DATA KASUS", 20, 85);
@@ -2044,14 +2216,19 @@
                 const recentActivities = document.getElementById('recent-activities');
                 recentActivities.innerHTML = '';
 
-                if (savedData.length === 0) {
+                // Get recent activities
+                const recentActs = JSON.parse(localStorage.getItem('recentActivities') || '[]');
+
+                if (recentActs.length === 0) {
                     recentActivities.innerHTML = '<div class="history-item">Belum ada aktivitas terbaru</div>';
                 } else {
-                    savedData.slice(-5).reverse().forEach(item => {
-                        const activityDate = new Date(item.date).toLocaleDateString('id-ID');
+                    recentActs.forEach(item => {
+                        const activityDate = formatDateIndonesia(item.date);
+                        const activityTime = formatTime(item.date);
                         const div = document.createElement('div');
                         div.className = 'history-item';
-                        div.innerHTML = `<strong>${activityDate}</strong> - ${item.petugas} mendokumentasikan kegiatan di ${item.lokasi} (${item.cabor})`;
+                        const action = item.action === 'delete' ? 'text-danger' : '';
+                        div.innerHTML = `<strong>${activityDate} ${activityTime}</strong> - ${item.petugas} ${item.actionText} kegiatan ${item.cabor} di ${item.lokasi}`;
                         recentActivities.appendChild(div);
                     });
                 }
@@ -2067,12 +2244,12 @@
                     historyList.innerHTML = '<div class="history-item">Belum ada riwayat dokumentasi</div>';
                 } else {
                     savedData.reverse().forEach(item => {
-                        const historyDate = new Date(item.date).toLocaleDateString('id-ID');
+                        const historyDate = formatDateIndonesia(item.date);
                         const div = document.createElement('div');
                         div.className = 'history-item';
                         div.innerHTML = `
                             <h3>${item.cabor} - ${item.lokasi}</h3>
-                            <p><strong>Tanggal:</strong> ${item.tanggal} | <strong>Petugas:</strong> ${item.petugas}</p>
+                            <p><strong>Tanggal:</strong> ${historyDate} | <strong>Petugas:</strong> ${item.petugas}</p>
                             <div class="history-actions">
                                 <button class="view-btn" data-id="${item.id}"><i class="fas fa-eye"></i> Lihat Detail</button>
                                 <button class="edit-btn" data-id="${item.id}"><i class="fas fa-edit"></i> Edit</button>
@@ -2128,14 +2305,14 @@
                     const detailContent = document.getElementById('detailContent');
 
                     // Format date
-                    const formattedDate = new Date(item.date).toLocaleDateString('id-ID');
+                    const formattedDate = formatDateIndonesia(item.date);
 
                     let html = `
                         <div class="detail-header">
                             <h3>${item.cabor} - ${item.lokasi}</h3>
-                            <p><strong>Tanggal:</strong> ${item.tanggal}</p>
-                            <p><strong>Petugas:</strong> ${item.petugas}</p>
-                            <p><strong>Waktu:</strong> ${item.waktu}</p>
+                            <p><strong>Tanggal&emsp; :</strong> ${formattedDate}</p>
+                            <p><strong>Petugas&emsp;:</strong> ${item.petugas}</p>
+                            <p><strong>Waktu&emsp;&emsp;:</strong> ${item.waktu}</p>
                         </div>
                     `;
 
@@ -2311,6 +2488,17 @@
 
                     // Set up confirm modal buttons
                     document.getElementById('confirmAction').onclick = function () {
+                        // Add to recent activities before deleting
+                        item.action = 'delete';
+                        item.actionText = 'menghapus';
+                        item.date = new Date().toISOString(); // Update timestamp
+                        
+                        // Get recent activities
+                        let recentActs = JSON.parse(localStorage.getItem('recentActivities') || '[]');
+                        recentActs.unshift(item);
+                        recentActs = recentActs.slice(0, 5); // Keep only last 5
+                        localStorage.setItem('recentActivities', JSON.stringify(recentActs));
+
                         const updatedData = savedData.filter(doc => doc.id !== id);
                         localStorage.setItem('medicalDocuments', JSON.stringify(updatedData));
 
@@ -2346,11 +2534,22 @@
                 doc.setFontSize(12);
 
                 // Add form data
-                doc.text(`Nama Petugas: ${data.petugas}`, 20, 40);
-                doc.text(`Tanggal: ${data.tanggal}`, 20, 48);
-                doc.text(`Lokasi Kegiatan: ${data.lokasi}`, 20, 56);
-                doc.text(`Cabang Olahraga: ${data.cabor}`, 20, 64);
-                doc.text(`Waktu: ${data.waktu}`, 20, 72);
+                const spacing = 56; // Reduced from 150 to 100 for tighter layout
+                const colonPos = 54; // Position for colons
+
+                // Helper function to draw aligned text
+                function drawFormField(label, value, yPos) {
+                    doc.text(label, 20, yPos);
+                    doc.text(":", colonPos, yPos);
+                    doc.text(value, spacing, yPos);
+                }
+
+                // Draw form fields with aligned colons
+                drawFormField("Nama Petugas", data.petugas, 40);
+                drawFormField("Tanggal", data.tanggal, 48);
+                drawFormField("Lokasi Kegiatan", data.lokasi, 56);
+                drawFormField("Cabang Olahraga", data.cabor, 64);
+                drawFormField("Waktu", data.waktu, 72);
 
                 // Data Kasus table
                 doc.text("DATA KASUS", 20, 85);
@@ -2538,4 +2737,3 @@
 </body>
 
 </html>
-``` 
