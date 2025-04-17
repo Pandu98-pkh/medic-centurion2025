@@ -7,6 +7,7 @@
     <title>Sistem Dokumentasi Tim Medis</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -534,7 +535,7 @@
             }
 
             .form-info-table td:first-child {
-                font-weight: bold;  
+                font-weight: bold;
             }
         }
 
@@ -558,18 +559,19 @@
 
         /* Add mobile-specific styles */
         @media screen and (max-width: 768px) {
-            .form-info-table, 
+
+            .form-info-table,
             .form-info-table tbody,
             .form-info-table tr,
             .form-info-table td {
                 display: block;
             }
-            
+
             .form-info-table td:first-child {
                 width: auto;
                 padding-bottom: 2px;
             }
-            
+
             .form-info-table td:last-child {
                 margin-bottom: 12px;
             }
@@ -674,23 +676,23 @@
 
                 <table class="form-info-table">
                     <tr>
-                        <td>Nama Petugas:</td>
+                        <td>Nama Petugas</td>
                         <td><input type="text" id="petugas" name="petugas" required></td>
                     </tr>
                     <tr>
-                        <td>Tanggal:</td>
+                        <td>Tanggal</td>
                         <td><input type="date" id="tanggal" name="tanggal" required></td>
                     </tr>
                     <tr>
-                        <td>Lokasi Kegiatan:</td>
+                        <td>Lokasi Kegiatan</td>
                         <td><input type="text" id="lokasi" name="lokasi" required></td>
                     </tr>
                     <tr>
-                        <td>Cabang Olahraga:</td>
+                        <td>Cabang Olahraga</td>
                         <td><input type="text" id="cabor" name="cabor" required></td>
                     </tr>
                     <tr>
-                        <td>Waktu:</td>
+                        <td>Waktu</td>
                         <td><input type="time" id="waktu" name="waktu" required></td>
                     </tr>
                 </table>
@@ -849,6 +851,55 @@
                 <div class="form-group">
                     <label for="rekomendasi">Rekomendasi untuk Kegiatan Selanjutnya:</label>
                     <textarea id="rekomendasi" name="rekomendasi"></textarea>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <div class="signature-container"
+                        style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+                        <!-- Petugas Medis Signature -->
+                        <div class="signature-section" style="flex: 1; min-width: 300px;">
+                            <h4>Tanda Tangan Petugas Medis</h4>
+                            <div class="signature-pad-container"
+                                style="border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px;">
+                                <canvas id="signaturePadPetugas" style="width: 100%; height: 200px;"></canvas>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <button type="button" class="btn-warning" onclick="clearSignature('Petugas')">
+                                    <i class="fas fa-eraser"></i> Hapus
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label for="namaPetugas">Nama Lengkap:</label>
+                                <input type="text" id="namaPetugas" name="namaPetugas" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nimPetugas">NIM:</label>
+                                <input type="text" id="nimPetugas" name="nimPetugas" required>
+                            </div>
+                        </div>
+
+                        <!-- Koordinator Signature -->
+                        <div class="signature-section" style="flex: 1; min-width: 300px;">
+                            <h4>Tanda Tangan Koordinator</h4>
+                            <div class="signature-pad-container"
+                                style="border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px;">
+                                <canvas id="signaturePadKoordinator" style="width: 100%; height: 200px;"></canvas>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <button type="button" class="btn-warning" onclick="clearSignature('Koordinator')">
+                                    <i class="fas fa-eraser"></i> Hapus
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label for="namaKoordinator">Nama Lengkap:</label>
+                                <input type="text" id="namaKoordinator" name="namaKoordinator" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nimKoordinator">NIM:</label>
+                                <input type="text" id="nimKoordinator" name="nimKoordinator" required>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div style="margin-top: 20px;">
@@ -1582,6 +1633,14 @@
                     formDataObj.rujukan_keterangan.push(cells[5].querySelector('input').value);
                 });
 
+                // Get signature data and names
+                formDataObj.signaturePetugas = signaturePadPetugas.isEmpty() ? null : signaturePadPetugas.toDataURL();
+                formDataObj.signatureKoordinator = signaturePadKoordinator.isEmpty() ? null : signaturePadKoordinator.toDataURL();
+                formDataObj.namaPetugas = document.getElementById('namaPetugas').value;
+                formDataObj.nimPetugas = document.getElementById('nimPetugas').value;
+                formDataObj.namaKoordinator = document.getElementById('namaKoordinator').value;
+                formDataObj.nimKoordinator = document.getElementById('nimKoordinator').value;
+
                 // Get saved data
                 let savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
 
@@ -1652,7 +1711,7 @@
             });
 
             // Fix save changes button functionality
-            document.getElementById('submitBtn').addEventListener('click', function(e) {
+            document.getElementById('submitBtn').addEventListener('click', function (e) {
                 const formMode = document.getElementById('formMode').value;
                 if (formMode === 'edit') {
                     if (validateForm()) {
@@ -1664,13 +1723,13 @@
             });
 
             // Remove old cancel button event listener and replace with new one
-            document.getElementById('cancelBtn').addEventListener('click', function() {
+            document.getElementById('cancelBtn').addEventListener('click', function () {
                 document.getElementById('confirmMessage').textContent = 'Batalkan perubahan? Semua perubahan akan hilang.';
                 document.getElementById('confirmAction').textContent = 'Ya, Batalkan';
                 document.getElementById('confirmAction').className = 'btn btn-warning';
-                
+
                 // Set up confirm modal buttons
-                document.getElementById('confirmAction').onclick = function() {
+                document.getElementById('confirmAction').onclick = function () {
                     // Reset form mode
                     document.getElementById('formMode').value = 'add';
                     document.getElementById('editItemId').value = '';
@@ -1687,7 +1746,7 @@
                     showToast('Pengeditan dibatalkan', 'info');
                 };
 
-                document.getElementById('cancelAction').onclick = function() {
+                document.getElementById('cancelAction').onclick = function () {
                     closeModal(document.getElementById('confirmModal'));
                 };
 
@@ -1876,6 +1935,20 @@
                         ]);
                     }
 
+                    // Fill signature data if exists
+                    if (item.signaturePetugas) {
+                        signaturePadPetugas.fromDataURL(item.signaturePetugas);
+                    }
+                    if (item.signatureKoordinator) {
+                        signaturePadKoordinator.fromDataURL(item.signatureKoordinator);
+                    }
+
+                    // Fill names and NIMs
+                    document.getElementById('namaPetugas').value = item.namaPetugas || '';
+                    document.getElementById('nimPetugas').value = item.nimPetugas || '';
+                    document.getElementById('namaKoordinator').value = item.namaKoordinator || '';
+                    document.getElementById('nimKoordinator').value = item.nimKoordinator || '';
+
                     // Re-attach event listeners
                     document.querySelectorAll('.delete-row-btn').forEach(button => {
                         button.addEventListener('click', function () {
@@ -1900,6 +1973,27 @@
                 const petugas = document.getElementById('petugas').value;
                 const lokasi = document.getElementById('lokasi').value;
                 const cabor = document.getElementById('cabor').value;
+
+                // Add these checks to your existing validation
+                if (signaturePadPetugas.isEmpty()) {
+                    showToast('Tanda tangan Petugas Medis diperlukan', 'error');
+                    return false;
+                }
+
+                if (signaturePadKoordinator.isEmpty()) {
+                    showToast('Tanda tangan Koordinator diperlukan', 'error');
+                    return false;
+                }
+
+                const namaPetugas = document.getElementById('namaPetugas').value;
+                const nimPetugas = document.getElementById('nimPetugas').value;
+                const namaKoordinator = document.getElementById('namaKoordinator').value;
+                const nimKoordinator = document.getElementById('nimKoordinator').value;
+
+                if (!namaPetugas || !nimPetugas || !namaKoordinator || !nimKoordinator) {
+                    showToast('Mohon lengkapi nama dan NIM untuk kedua penanda tangan', 'error');
+                    return false;
+                }
 
                 return petugas.trim() !== '' && lokasi.trim() !== '' && cabor.trim() !== '';
             }
@@ -1977,6 +2071,16 @@
                     </tr>
                 `;
 
+                // Clear signatures
+                if (signaturePadPetugas) signaturePadPetugas.clear();
+                if (signaturePadKoordinator) signaturePadKoordinator.clear();
+
+                // Clear names and NIMs
+                document.getElementById('namaPetugas').value = '';
+                document.getElementById('nimPetugas').value = '';
+                document.getElementById('namaKoordinator').value = '';
+                document.getElementById('nimKoordinator').value = '';
+
                 // Re-attach event listeners
                 document.querySelectorAll('.delete-row-btn').forEach(button => {
                     button.addEventListener('click', function () {
@@ -1990,194 +2094,101 @@
 
             // Generate PDF
             document.getElementById('generatePDF').addEventListener('click', function () {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-
-                // Set font to Times New Roman
-                doc.setFont("times", "normal");
-                doc.setFontSize(12);
-
-                // Add header
-                doc.setFontSize(16);
-                doc.text("DOKUMENTASI & ADMINISTRASI TIM MEDIC", 105, 20, { align: 'center' });
-                doc.setFontSize(12);
-
-                // Add form data
-                const petugas = document.getElementById('petugas').value;
-                const tanggal = document.getElementById('tanggal').value;
-                const lokasi = document.getElementById('lokasi').value;
-                const cabor = document.getElementById('cabor').value;
-                const waktu = document.getElementById('waktu').value;
-
-                const spacing = 56; // Reduced from 150 to 100 for tighter layout
-                const colonPos = 54; // Position for colons
-
-                // Helper function to draw aligned text
-                function drawFormField(label, value, yPos) {
-                    doc.text(label, 20, yPos);
-                    doc.text(":", colonPos, yPos);
-                    doc.text(value, spacing, yPos);
-                }
-
-                // Draw form fields with aligned colons
-                drawFormField("Nama Petugas", petugas, 40);
-                drawFormField("Tanggal", tanggal, 48);
-                drawFormField("Lokasi Kegiatan", lokasi, 56);
-                drawFormField("Cabang Olahraga", cabor, 64);
-                drawFormField("Waktu", waktu, 72);
-
-                // Data Kasus table
-                doc.text("DATA KASUS", 20, 85);
-
-                const kasusData = [];
-                const kasusRows = document.querySelectorAll('#dataKasusTable tbody tr');
-                kasusRows.forEach((row, index) => {
+                // Create form data object with current form values
+                const formData = {
+                    petugas: document.getElementById('petugas').value,
+                    tanggal: document.getElementById('tanggal').value,
+                    lokasi: document.getElementById('lokasi').value,
+                    cabor: document.getElementById('cabor').value,
+                    waktu: document.getElementById('waktu').value,
+                    kendala: document.getElementById('kendala').value,
+                    solusi: document.getElementById('solusi').value,
+                    rekomendasi: document.getElementById('rekomendasi').value,
+                    
+                    // Collect kasus data
+                    kasus_nama: [],
+                    kasus_waktu: [],
+                    kasus_jk: [],
+                    kasus_keluhan: [],
+                    kasus_penanganan: [],
+                    kasus_hasil: [],
+            
+                    // Collect obat data
+                    obat_nama: [],
+                    obat_awal: [],
+                    obat_terpakai: [],
+                    obat_sisa: [],
+                    obat_keterangan: [],
+            
+                    // Collect perlengkapan data
+                    perlengkapan_nama: [],
+                    perlengkapan_awal: [],
+                    perlengkapan_akhir: [],
+                    perlengkapan_keterangan: [],
+            
+                    // Collect rujukan data
+                    rujukan_nama: [],
+                    rujukan_alasan: [],
+                    rujukan_tujuan: [],
+                    rujukan_waktu: [],
+                    rujukan_keterangan: [],
+            
+                    // Get signatures and names
+                    signaturePetugas: signaturePadPetugas.isEmpty() ? null : signaturePadPetugas.toDataURL(),
+                    signatureKoordinator: signaturePadKoordinator.isEmpty() ? null : signaturePadKoordinator.toDataURL(),
+                    namaPetugas: document.getElementById('namaPetugas').value,
+                    nimPetugas: document.getElementById('nimPetugas').value,
+                    namaKoordinator: document.getElementById('namaKoordinator').value,
+                    nimKoordinator: document.getElementById('nimKoordinator').value
+                };
+            
+                // Collect table data
+                document.querySelectorAll('#dataKasusTable tbody tr').forEach(row => {
                     const cells = row.querySelectorAll('td');
-                    const rowData = [];
-                    rowData.push(cells[0].textContent);
-                    rowData.push(cells[1].querySelector('input').value);
-                    rowData.push(cells[2].querySelector('input').value);
-                    rowData.push(cells[3].querySelector('select').value);
-                    rowData.push(cells[4].querySelector('input').value);
-                    rowData.push(cells[5].querySelector('input').value);
-                    rowData.push(cells[6].querySelector('input').value);
-                    kasusData.push(rowData);
-                });
-
-                doc.autoTable({
-                    startY: 90,
-                    head: [['No.', 'Waktu', 'Nama Pasien', 'Jenis Kelamin', 'Keluhan/Cedera', 'Penanganan', 'Hasil']],
-                    body: kasusData,
-                    theme: 'grid',
-                    styles: {
-                        font: 'times',
-                        fontSize: 10
+                    if (cells[2].querySelector('input').value.trim() !== '') {
+                        formData.kasus_waktu.push(cells[1].querySelector('input').value);
+                        formData.kasus_nama.push(cells[2].querySelector('input').value);
+                        formData.kasus_jk.push(cells[3].querySelector('select').value);
+                        formData.kasus_keluhan.push(cells[4].querySelector('input').value);
+                        formData.kasus_penanganan.push(cells[5].querySelector('input').value);
+                        formData.kasus_hasil.push(cells[6].querySelector('input').value);
                     }
                 });
-
-                // Penggunaan Obat table
-                let currentY = doc.lastAutoTable.finalY + 10;
-                doc.text("PENGGUNAAN OBAT & ALAT MEDIS", 20, currentY);
-
-                const obatData = [];
-                const obatRows = document.querySelectorAll('#penggunaanObatTable tbody tr');
-                obatRows.forEach((row, index) => {
+            
+                document.querySelectorAll('#penggunaanObatTable tbody tr').forEach(row => {
                     const cells = row.querySelectorAll('td');
-                    const rowData = [];
-                    rowData.push(cells[0].textContent);
-                    rowData.push(cells[1].querySelector('input').value);
-                    rowData.push(cells[2].querySelector('input').value);
-                    rowData.push(cells[3].querySelector('input').value);
-                    rowData.push(cells[4].querySelector('input').value);
-                    rowData.push(cells[5].querySelector('input').value); // Keterangan
-                    obatData.push(rowData);
-                });
-
-                doc.autoTable({
-                    startY: currentY + 5,
-                    head: [['No.', 'Nama Item', 'Jumlah Awal', 'Jumlah Terpakai', 'Sisa', 'Keterangan']],
-                    body: obatData,
-                    theme: 'grid',
-                    styles: {
-                        font: 'times',
-                        fontSize: 10
+                    if (cells[1].querySelector('input').value.trim() !== '') {
+                        formData.obat_nama.push(cells[1].querySelector('input').value);
+                        formData.obat_awal.push(cells[2].querySelector('input').value);
+                        formData.obat_terpakai.push(cells[3].querySelector('input').value);
+                        formData.obat_sisa.push(cells[4].querySelector('input').value);
+                        formData.obat_keterangan.push(cells[5].querySelector('input').value);
                     }
                 });
-
-                // Perlengkapan table
-                currentY = doc.lastAutoTable.finalY + 10;
-                doc.text("CATATAN PERLENGKAPAN DAN ALAT MEDIS", 20, currentY);
-
-                const perlengkapanData = [];
-                const perlengkapanRows = document.querySelectorAll('#perlengkapanTable tbody tr');
-                perlengkapanRows.forEach((row, index) => {
+            
+                document.querySelectorAll('#perlengkapanTable tbody tr').forEach(row => {
                     const cells = row.querySelectorAll('td');
-                    const rowData = [];
-                    rowData.push(cells[0].textContent);
-                    rowData.push(cells[1].querySelector('input').value);
-                    rowData.push(cells[2].querySelector('select').value);
-                    rowData.push(cells[3].querySelector('select').value);
-                    rowData.push(cells[4].querySelector('input').value);
-                    perlengkapanData.push(rowData);
-                });
-
-                doc.autoTable({
-                    startY: currentY + 5,
-                    head: [['No.', 'Nama Perlengkapan', 'Kondisi Awal', 'Kondisi Akhir', 'Keterangan']],
-                    body: perlengkapanData,
-                    theme: 'grid',
-                    styles: {
-                        font: 'times',
-                        fontSize: 10
+                    if (cells[1].querySelector('input').value.trim() !== '') {
+                        formData.perlengkapan_nama.push(cells[1].querySelector('input').value);
+                        formData.perlengkapan_awal.push(cells[2].querySelector('select').value);
+                        formData.perlengkapan_akhir.push(cells[3].querySelector('select').value);
+                        formData.perlengkapan_keterangan.push(cells[4].querySelector('input').value);
                     }
                 });
-
-                // Rujukan Medis table
-                currentY = doc.lastAutoTable.finalY + 10;
-                doc.text("RUJUKAN MEDIS", 20, currentY);
-
-                const rujukanData = [];
-                const rujukanRows = document.querySelectorAll('#rujukanTable tbody tr');
-                rujukanRows.forEach((row, index) => {
+            
+                document.querySelectorAll('#rujukanTable tbody tr').forEach(row => {
                     const cells = row.querySelectorAll('td');
-                    const rowData = [];
-                    rowData.push(cells[0].textContent);
-                    rowData.push(cells[1].querySelector('input').value);
-                    rowData.push(cells[2].querySelector('input').value);
-                    rowData.push(cells[3].querySelector('input').value);
-                    rowData.push(cells[4].querySelector('input').value);
-                    rowData.push(cells[5].querySelector('input').value);
-                    rujukanData.push(rowData);
-                });
-
-                doc.autoTable({
-                    startY: currentY + 5,
-                    head: [['No.', 'Nama Pasien', 'Alasan Rujukan', 'Fasilitas Kesehatan Tujuan', 'Waktu Rujukan', 'Keterangan']],
-                    body: rujukanData,
-                    theme: 'grid',
-                    styles: {
-                        font: 'times',
-                        fontSize: 10
+                    if (cells[1].querySelector('input').value.trim() !== '') {
+                        formData.rujukan_nama.push(cells[1].querySelector('input').value);
+                        formData.rujukan_alasan.push(cells[2].querySelector('input').value);
+                        formData.rujukan_tujuan.push(cells[3].querySelector('input').value);
+                        formData.rujukan_waktu.push(cells[4].querySelector('input').value);
+                        formData.rujukan_keterangan.push(cells[5].querySelector('input').value);
                     }
                 });
-
-                // Add new page if needed
-                if (doc.lastAutoTable.finalY > 240) {
-                    doc.addPage();
-                    currentY = 20;
-                } else {
-                    currentY = doc.lastAutoTable.finalY + 15;
-                }
-
-                // Evaluasi
-                doc.text("EVALUASI KEGIATAN", 20, currentY);
-                currentY += 10;
-
-                doc.text("Kendala yang Dihadapi:", 20, currentY);
-                currentY += 7;
-                doc.text(document.getElementById('kendala').value || "-", 25, currentY);
-                currentY += 15;
-
-                doc.text("Solusi yang Dilakukan:", 20, currentY);
-                currentY += 7;
-                doc.text(document.getElementById('solusi').value || "-", 25, currentY);
-                currentY += 15;
-
-                doc.text("Rekomendasi untuk Kegiatan Selanjutnya:", 20, currentY);
-                currentY += 7;
-                doc.text(document.getElementById('rekomendasi').value || "-", 25, currentY);
-                currentY += 20;
-
-                // Tanda tangan
-                doc.text("Petugas Medis", 40, currentY);
-                doc.text("Koordinator Acara", 150, currentY);
-
-                currentY += 20;
-                doc.text("________________", 40, currentY);
-                doc.text("________________", 150, currentY);
-
-                // Save the PDF
-                doc.save(`Dokumentasi_Tim_Medis_${tanggal}_${cabor}.pdf`);
+            
+                // Generate PDF using the same function
+                generatePDFFromData(formData);
                 showToast('PDF berhasil diunduh', 'success');
             });
 
@@ -2471,6 +2482,30 @@
                         </div>
                     `;
 
+                    // In your viewItemDetail function, add before the closing detail-evaluasi div:
+
+                    html += `
+                        <h4><i class="fas fa-signature"></i> Tanda Tangan</h4>
+                        <div class="signatures-detail" style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 10px;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <h5>Petugas Medis:</h5>
+                                ${item.signaturePetugas ?
+                            `<img src="${item.signaturePetugas}" style="max-width: 200px; border: 1px solid #ddd;">` :
+                            '<p>Tidak ada tanda tangan</p>'}
+                                <p><strong>Nama:</strong> ${item.namaPetugas || '-'}</p>
+                                <p><strong>NIM:</strong> ${item.nimPetugas || '-'}</p>
+                            </div>
+                            <div style="flex: 1; min-width: 200px;">
+                                <h5>Koordinator:</h5>
+                                ${item.signatureKoordinator ?
+                            `<img src="${item.signatureKoordinator}" style="max-width: 200px; border: 1px solid #ddd;">` :
+                            '<p>Tidak ada tanda tangan</p>'}
+                                <p><strong>Nama:</strong> ${item.namaKoordinator || '-'}</p>
+                                <p><strong>NIM:</strong> ${item.nimKoordinator || '-'}</p>
+                            </div>
+                        </div>
+                    `;
+
                     detailContent.innerHTML = html;
                     openModal('detailModal');
                 } else {
@@ -2492,7 +2527,7 @@
                         item.action = 'delete';
                         item.actionText = 'menghapus';
                         item.date = new Date().toISOString(); // Update timestamp
-                        
+
                         // Get recent activities
                         let recentActs = JSON.parse(localStorage.getItem('recentActivities') || '[]');
                         recentActs.unshift(item);
@@ -2523,215 +2558,296 @@
             function generatePDFFromData(data) {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
-
-                // Set font to Times New Roman
-                doc.setFont("times", "normal");
-                doc.setFontSize(12);
-
-                // Add header
-                doc.setFontSize(16);
-                doc.text("DOKUMENTASI & ADMINISTRASI TIM MEDIC", 105, 20, { align: 'center' });
-                doc.setFontSize(12);
-
-                // Add form data
-                const spacing = 56; // Reduced from 150 to 100 for tighter layout
-                const colonPos = 54; // Position for colons
-
-                // Helper function to draw aligned text
-                function drawFormField(label, value, yPos) {
-                    doc.text(label, 20, yPos);
-                    doc.text(":", colonPos, yPos);
-                    doc.text(value, spacing, yPos);
+                let currentY = 0;
+            
+                // Set page margins (in mm)
+                const margin = {
+                    left: 25,
+                    right: 25,
+                    top: 20
+                };
+                const pageWidth = doc.internal.pageSize.width;
+                const pageHeight = doc.internal.pageSize.height;
+                const contentWidth = pageWidth - margin.left - margin.right;
+            
+                // Helper function to check page break
+                function checkNewPage(neededSpace = 20) {
+                    if (currentY + neededSpace > pageHeight - margin.top) {
+                        doc.addPage();
+                        currentY = margin.top;
+                        return true;
+                    }
+                    return false;
                 }
-
-                // Draw form fields with aligned colons
-                drawFormField("Nama Petugas", data.petugas, 40);
-                drawFormField("Tanggal", data.tanggal, 48);
-                drawFormField("Lokasi Kegiatan", data.lokasi, 56);
-                drawFormField("Cabang Olahraga", data.cabor, 64);
-                drawFormField("Waktu", data.waktu, 72);
-
+            
+                // Set initial font
+                doc.setFont("times", "normal");
+                doc.setFontSize(16);
+            
+                // Header
+                currentY = margin.top;
+                doc.text("DOKUMENTASI & ADMINISTRASI TIM MEDIC", pageWidth / 2, currentY, { align: 'center' });
+                
+                // Basic information
+                doc.setFontSize(12);
+                currentY = margin.top + 20;
+            
+                // Form data with aligned layout
+                const labelPos = margin.left;
+                const colonPos = margin.left + 34;
+                const valuePos = margin.left + 40;
+            
+                function drawFormField(label, value, spacing = 8) {
+                    checkNewPage(spacing);
+                    doc.text(label, labelPos, currentY);
+                    doc.text(":", colonPos, currentY);
+                    doc.text(value || "-", valuePos, currentY);
+                    currentY += spacing;
+                }
+            
+                drawFormField("Nama Petugas", data.petugas);
+                drawFormField("Tanggal", data.tanggal);
+                drawFormField("Lokasi Kegiatan", data.lokasi);
+                drawFormField("Cabang Olahraga", data.cabor);
+                drawFormField("Waktu", data.waktu);
+            
                 // Data Kasus table
-                doc.text("DATA KASUS", 20, 85);
-
+                currentY += 5;
+                doc.text("DATA KASUS", margin.left, currentY);
+                
                 const kasusData = [];
                 if (Array.isArray(data.kasus_nama)) {
                     for (let i = 0; i < data.kasus_nama.length; i++) {
                         if (data.kasus_nama[i] && data.kasus_nama[i].trim() !== '') {
                             kasusData.push([
                                 i + 1,
-                                data.kasus_waktu ? data.kasus_waktu[i] || '' : '',
-                                data.kasus_nama[i] || '',
-                                data.kasus_jk ? data.kasus_jk[i] || '' : '',
-                                data.kasus_keluhan ? data.kasus_keluhan[i] || '' : '',
-                                data.kasus_penanganan ? data.kasus_penanganan[i] || '' : '',
-                                data.kasus_hasil ? data.kasus_hasil[i] || '' : ''
+                                data.kasus_waktu[i] || '-',
+                                data.kasus_nama[i] || '-',
+                                data.kasus_jk[i] || '-',
+                                data.kasus_keluhan[i] || '-',
+                                data.kasus_penanganan[i] || '-',
+                                data.kasus_hasil[i] || '-'
                             ]);
                         }
                     }
                 }
-
-                if (kasusData.length === 0) {
-                    kasusData.push(['', '', '', '', '', '', '']);
-                }
-
+            
                 doc.autoTable({
-                    startY: 90,
-                    head: [['No.', 'Waktu', 'Nama Pasien', 'Jenis Kelamin', 'Keluhan/Cedera', 'Penanganan', 'Hasil']],
+                    startY: currentY + 5,
+                    head: [['No', 'Waktu', 'Nama Pasien', 'JK', 'Keluhan', 'Penanganan', 'Hasil']],
                     body: kasusData,
                     theme: 'grid',
-                    styles: {
-                        font: 'times',
-                        fontSize: 10
-                    }
+                    styles: { font: 'times', fontSize: 10 },
+                    margin: { left: margin.left, right: margin.right }
                 });
-
-                // Continue with other tables and sections...
-                let currentY = doc.lastAutoTable.finalY + 10;
-                doc.text("PENGGUNAAN OBAT & ALAT MEDIS", 20, currentY);
-
+            
+                // Penggunaan Obat table
+                currentY = doc.lastAutoTable.finalY + 10;
+                doc.text("PENGGUNAAN OBAT & ALAT MEDIS", margin.left, currentY);
+            
                 const obatData = [];
                 if (Array.isArray(data.obat_nama)) {
                     for (let i = 0; i < data.obat_nama.length; i++) {
                         if (data.obat_nama[i] && data.obat_nama[i].trim() !== '') {
                             obatData.push([
                                 i + 1,
-                                data.obat_nama[i] || '',
-                                data.obat_awal ? data.obat_awal[i] || '' : '',
-                                data.obat_terpakai ? data.obat_terpakai[i] || '' : '',
-                                data.obat_sisa ? data.obat_sisa[i] || '' : '',
-                                data.obat_keterangan ? data.obat_keterangan[i] || '' : ''
+                                data.obat_nama[i] || '-',
+                                data.obat_awal[i] || '-',
+                                data.obat_terpakai[i] || '-',
+                                data.obat_sisa[i] || '-',
+                                data.obat_keterangan[i] || '-'
                             ]);
                         }
                     }
                 }
-
-                if (obatData.length === 0) {
-                    obatData.push(['', '', '', '', '', '']);
-                }
-
+            
                 doc.autoTable({
                     startY: currentY + 5,
-                    head: [['No.', 'Nama Item', 'Jumlah Awal', 'Jumlah Terpakai', 'Sisa', 'Keterangan']],
+                    head: [['No', 'Nama Item', 'Jumlah Awal', 'Terpakai', 'Sisa', 'Keterangan']],
                     body: obatData,
                     theme: 'grid',
-                    styles: {
-                        font: 'times',
-                        fontSize: 10
-                    }
+                    styles: { font: 'times', fontSize: 10 },
+                    margin: { left: margin.left, right: margin.right }
                 });
-
+            
                 // Perlengkapan table
                 currentY = doc.lastAutoTable.finalY + 10;
-                doc.text("CATATAN PERLENGKAPAN DAN ALAT MEDIS", 20, currentY);
-
+                doc.text("CATATAN PERLENGKAPAN DAN ALAT MEDIS", margin.left, currentY);
+            
                 const perlengkapanData = [];
                 if (Array.isArray(data.perlengkapan_nama)) {
                     for (let i = 0; i < data.perlengkapan_nama.length; i++) {
                         if (data.perlengkapan_nama[i] && data.perlengkapan_nama[i].trim() !== '') {
                             perlengkapanData.push([
                                 i + 1,
-                                data.perlengkapan_nama[i] || '',
-                                data.perlengkapan_awal ? data.perlengkapan_awal[i] || '' : '',
-                                data.perlengkapan_akhir ? data.perlengkapan_akhir[i] || '' : '',
-                                data.perlengkapan_keterangan ? data.perlengkapan_keterangan[i] || '' : ''
+                                data.perlengkapan_nama[i] || '-',
+                                data.perlengkapan_awal[i] || '-',
+                                data.perlengkapan_akhir[i] || '-',
+                                data.perlengkapan_keterangan[i] || '-'
                             ]);
                         }
                     }
                 }
-
-                if (perlengkapanData.length === 0) {
-                    perlengkapanData.push(['', '', '', '', '']);
-                }
-
+            
                 doc.autoTable({
                     startY: currentY + 5,
-                    head: [['No.', 'Nama Perlengkapan', 'Kondisi Awal', 'Kondisi Akhir', 'Keterangan']],
+                    head: [['No', 'Nama Perlengkapan', 'Kondisi Awal', 'Kondisi Akhir', 'Keterangan']],
                     body: perlengkapanData,
                     theme: 'grid',
-                    styles: {
-                        font: 'times',
-                        fontSize: 10
-                    }
+                    styles: { font: 'times', fontSize: 10 },
+                    margin: { left: margin.left, right: margin.right }
                 });
-
-                // Rujukan Medis table
+            
+                // Rujukan table
                 currentY = doc.lastAutoTable.finalY + 10;
-                doc.text("RUJUKAN MEDIS", 20, currentY);
-
+                doc.text("RUJUKAN MEDIS", margin.left, currentY);
+            
                 const rujukanData = [];
                 if (Array.isArray(data.rujukan_nama)) {
                     for (let i = 0; i < data.rujukan_nama.length; i++) {
                         if (data.rujukan_nama[i] && data.rujukan_nama[i].trim() !== '') {
                             rujukanData.push([
                                 i + 1,
-                                data.rujukan_nama[i] || '',
-                                data.rujukan_alasan ? data.rujukan_alasan[i] || '' : '',
-                                data.rujukan_tujuan ? data.rujukan_tujuan[i] || '' : '',
-                                data.rujukan_waktu ? data.rujukan_waktu[i] || '' : '',
-                                data.rujukan_keterangan ? data.rujukan_keterangan[i] || '' : ''
+                                data.rujukan_nama[i] || '-',
+                                data.rujukan_alasan[i] || '-',
+                                data.rujukan_tujuan[i] || '-',
+                                data.rujukan_waktu[i] || '-',
+                                data.rujukan_keterangan[i] || '-'
                             ]);
                         }
                     }
                 }
-
-                if (rujukanData.length === 0) {
-                    rujukanData.push(['', '', '', '', '', '']);
-                }
-
+            
                 doc.autoTable({
                     startY: currentY + 5,
-                    head: [['No.', 'Nama Pasien', 'Alasan Rujukan', 'Fasilitas Kesehatan Tujuan', 'Waktu Rujukan', 'Keterangan']],
+                    head: [['No', 'Nama Pasien', 'Alasan', 'Tujuan', 'Waktu', 'Keterangan']],
                     body: rujukanData,
                     theme: 'grid',
-                    styles: {
-                        font: 'times',
-                        fontSize: 10
-                    }
+                    styles: { font: 'times', fontSize: 10 },
+                    margin: { left: margin.left, right: margin.right }
                 });
-
-                // Add new page if needed
-                if (doc.lastAutoTable.finalY > 240) {
-                    doc.addPage();
-                    currentY = 20;
-                } else {
-                    currentY = doc.lastAutoTable.finalY + 15;
-                }
-
-                // Evaluasi
-                doc.text("EVALUASI KEGIATAN", 20, currentY);
+            
+                // Evaluasi section
+                currentY = doc.lastAutoTable.finalY + 10;
+                checkNewPage(40);
+                doc.text("EVALUASI KEGIATAN", margin.left, currentY);
                 currentY += 10;
-
-                doc.text("Kendala yang Dihadapi:", 20, currentY);
+            
+                // Kendala
+                doc.text("Kendala yang Dihadapi:", margin.left, currentY);
                 currentY += 7;
-                doc.text(data.kendala || "-", 25, currentY);
+                doc.text(data.kendala || "-", margin.left + 5, currentY);
                 currentY += 15;
-
-                doc.text("Solusi yang Dilakukan:", 20, currentY);
+            
+                // Solusi
+                checkNewPage(30);
+                doc.text("Solusi yang Dilakukan:", margin.left, currentY);
                 currentY += 7;
-                doc.text(data.solusi || "-", 25, currentY);
+                doc.text(data.solusi || "-", margin.left + 5, currentY);
                 currentY += 15;
-
-                doc.text("Rekomendasi untuk Kegiatan Selanjutnya:", 20, currentY);
+            
+                // Rekomendasi
+                checkNewPage(30);
+                doc.text("Rekomendasi untuk Kegiatan Selanjutnya:", margin.left, currentY);
                 currentY += 7;
-                doc.text(data.rekomendasi || "-", 25, currentY);
+                doc.text(data.rekomendasi || "-", margin.left + 5, currentY);
                 currentY += 20;
-
-                // Tanda tangan
-                doc.text("Petugas Medis", 40, currentY);
-                doc.text("Koordinator Acara", 150, currentY);
-
-                currentY += 20;
-                doc.text("________________", 40, currentY);
-                doc.text("________________", 150, currentY);
-
-                // Save the PDF
+            
+                // Check if new page needed for signatures
+                checkNewPage(60);
+            
+                // Signature section
+                currentY += 10;
+                const leftSignX = margin.left + 15;
+                const rightSignX = pageWidth - margin.right - 70;
+            
+                doc.text("Petugas Medis", leftSignX, currentY);
+                doc.text("Koordinator", rightSignX, currentY);
+                currentY += 10;
+            
+                // Add signatures
+                if (data.signaturePetugas) {
+                    doc.addImage(data.signaturePetugas, 'PNG', margin.left, currentY, 70, 30);
+                }
+                if (data.signatureKoordinator) {
+                    doc.addImage(data.signatureKoordinator, 'PNG', rightSignX - 15, currentY, 70, 30);
+                }
+            
+                // Add names and NIMs
+                currentY += 35;
+                doc.setFontSize(10);
+                doc.text(data.namaPetugas || "________________", leftSignX, currentY);
+                doc.text(data.namaKoordinator || "________________", rightSignX, currentY);
+                currentY += 5;
+                doc.text(data.nimPetugas ? `NIM: ${data.nimPetugas}` : "NIM: ____________", leftSignX, currentY);
+                doc.text(data.nimKoordinator ? `NIM: ${data.nimKoordinator}` : "NIM: ____________", rightSignX, currentY);
+            
+                // Save PDF
                 doc.save(`Dokumentasi_Tim_Medis_${data.tanggal}_${data.cabor}.pdf`);
             }
 
             // Initialize dashboard and history
             updateDashboard();
             updateHistory();
+        });
+
+        // Add after other script tags but before the closing </body> tag
+
+        // Initialize signature pads
+        let signaturePadPetugas, signaturePadKoordinator;
+
+        function initSignaturePads() {
+            const canvasPetugas = document.getElementById('signaturePadPetugas');
+            const canvasKoordinator = document.getElementById('signaturePadKoordinator');
+
+            // Set canvas width and height based on container size
+            function resizeCanvas(canvas) {
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                const container = canvas.parentElement;
+                canvas.width = container.offsetWidth * ratio;
+                canvas.height = container.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+            }
+
+            // Resize both canvases
+            resizeCanvas(canvasPetugas);
+            resizeCanvas(canvasKoordinator);
+
+            // Initialize signature pads
+            signaturePadPetugas = new SignaturePad(canvasPetugas, {
+                backgroundColor: 'rgb(255, 255, 255)'
+            });
+            signaturePadKoordinator = new SignaturePad(canvasKoordinator, {
+                backgroundColor: 'rgb(255, 255, 255)'
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function () {
+                resizeCanvas(canvasPetugas);
+                resizeCanvas(canvasKoordinator);
+
+                // Redraw signatures if they exist
+                if (signaturePadPetugas.data) {
+                    signaturePadPetugas.fromData(signaturePadPetugas.data);
+                }
+                if (signaturePadKoordinator.data) {
+                    signaturePadKoordinator.fromData(signaturePadKoordinator.data);
+                }
+            });
+        }
+
+        // Clear signature
+        function clearSignature(type) {
+            if (type === 'Petugas') {
+                signaturePadPetugas.clear();
+            } else {
+                signaturePadKoordinator.clear();
+            }
+        }
+
+        // Initialize signature pads after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            initSignaturePads();
         });
     </script>
 </body>
