@@ -681,7 +681,7 @@
                     </tr>
                     <tr>
                         <td>Tanggal</td>
-                        <td><input type="date" id="tanggal" name="tanggal" required></td>
+                        <td><input type="date" id="tanggal" name="tanggal" readonly required></td>
                     </tr>
                     <tr>
                         <td>Lokasi Kegiatan</td>
@@ -693,7 +693,7 @@
                     </tr>
                     <tr>
                         <td>Waktu</td>
-                        <td><input type="time" id="waktu" name="waktu" required></td>
+                        <td><input type="time" id="waktu" name="waktu" readonly required></td>
                     </tr>
                 </table>
 
@@ -1077,16 +1077,53 @@
             }
 
             // Helper function for Indonesian date formatting
+            // Replace the existing formatDateIndonesia function with this enhanced version:
+
+            // Replace the existing formatDateIndonesia function with this improved version:
+
             function formatDateIndonesia(dateString) {
+                // Handle undefined or null input
+                if (!dateString) {
+                    return '-';
+                }
+
                 const months = [
                     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
                 ];
-                const date = new Date(dateString);
-                const day = date.getDate();
-                const month = months[date.getMonth()];
-                const year = date.getFullYear();
-                return `${day} ${month} ${year}`;
+
+                try {
+                    let date;
+                    if (typeof dateString === 'string') {
+                        if (dateString.includes('T')) {
+                            // Handle ISO date string
+                            date = new Date(dateString);
+                        } else if (dateString.includes('-')) {
+                            // Handle YYYY-MM-DD format
+                            const [year, month, day] = dateString.split('-');
+                            date = new Date(year, month - 1, day);
+                        } else {
+                            // Handle other formats
+                            date = new Date(dateString);
+                        }
+                    } else {
+                        // Handle direct Date object
+                        date = new Date(dateString);
+                    }
+
+                    if (isNaN(date.getTime())) {
+                        return '-';
+                    }
+
+                    const day = date.getDate();
+                    const month = months[date.getMonth()];
+                    const year = date.getFullYear();
+
+                    return `${day} ${month} ${year}`;
+                } catch (error) {
+                    console.error('Error formatting date:', error);
+                    return '-';
+                }
             }
 
             // Function to format time
@@ -1315,7 +1352,7 @@
 
                 // Add data rows
                 dataArray.forEach(data => {
-                    csvContent += `${data.id},${data.date.split('T')[0]},${escapeCSV(data.petugas)},${data.tanggal},${escapeCSV(data.lokasi)},${escapeCSV(data.cabor)},${data.waktu},${escapeCSV(data.kendala || "")},${escapeCSV(data.solusi || "")},${escapeCSV(data.rekomendasi || "")}\n`;
+                    csvContent += `${data.id},${formatDateIndonesia(data.tanggal)},${escapeCSV(data.petugas)},${data.tanggal},${escapeCSV(data.lokasi)},${escapeCSV(data.cabor)},${data.waktu},${escapeCSV(data.kendala || "")},${escapeCSV(data.solusi || "")},${escapeCSV(data.rekomendasi || "")}\n`;
                 });
 
                 // Add separator
@@ -1552,6 +1589,7 @@
 
                 // Get basic form data
                 const formDataObj = {
+                    id: Date.now(), // Always generate new ID for new submissions
                     petugas: document.getElementById('petugas').value,
                     tanggal: document.getElementById('tanggal').value,
                     lokasi: document.getElementById('lokasi').value,
@@ -1560,6 +1598,7 @@
                     kendala: document.getElementById('kendala').value,
                     solusi: document.getElementById('solusi').value,
                     rekomendasi: document.getElementById('rekomendasi').value,
+                    date: new Date().toISOString(), // Add creation timestamp
                     action: document.getElementById('formMode').value === 'edit' ? 'edit' : 'add',
                     actionText: document.getElementById('formMode').value === 'edit' ? 'mengedit' : 'mendokumentasikan'
                 };
@@ -1634,8 +1673,10 @@
                 });
 
                 // Get signature data and names
-                formDataObj.signaturePetugas = signaturePadPetugas.isEmpty() ? null : signaturePadPetugas.toDataURL();
-                formDataObj.signatureKoordinator = signaturePadKoordinator.isEmpty() ? null : signaturePadKoordinator.toDataURL();
+                formDataObj.signaturePetugas = localStorage.getItem('tempSignaturePetugas') ||
+                    (signaturePadPetugas.isEmpty() ? null : signaturePadPetugas.toDataURL());
+                formDataObj.signatureKoordinator = localStorage.getItem('tempSignatureKoordinator') ||
+                    (signaturePadKoordinator.isEmpty() ? null : signaturePadKoordinator.toDataURL());
                 formDataObj.namaPetugas = document.getElementById('namaPetugas').value;
                 formDataObj.nimPetugas = document.getElementById('nimPetugas').value;
                 formDataObj.namaKoordinator = document.getElementById('namaKoordinator').value;
@@ -1649,65 +1690,38 @@
                 const editItemId = parseInt(document.getElementById('editItemId').value);
 
                 if (formMode === 'edit' && editItemId) {
-                    // Update existing record
                     const index = savedData.findIndex(item => item.id === editItemId);
-
                     if (index !== -1) {
-                        // Preserve original id and creation date
-                        formDataObj.id = editItemId;
-                        formDataObj.date = savedData[index].date;
-                        formDataObj.updated = new Date().toISOString(); // Add update timestamp
-
-                        // Replace the item at the index
+                        formDataObj.id = editItemId; // Keep the original ID
                         savedData[index] = formDataObj;
-
                         showToast('Dokumentasi berhasil diperbarui!', 'success');
-                    } else {
-                        showToast('Data yang diedit tidak ditemukan', 'error');
-                        return;
                     }
                 } else {
                     // Add new record
-                    formDataObj.id = Date.now(); // Use timestamp as ID
-                    formDataObj.date = new Date().toISOString();
                     savedData.push(formDataObj);
-
                     showToast('Dokumentasi berhasil disimpan!', 'success');
                 }
 
-                // Save updated data
+                // Save to localStorage
                 localStorage.setItem('medicalDocuments', JSON.stringify(savedData));
 
                 // Update recent activities
-                let recentActs = JSON.parse(localStorage.getItem('recentActivities') || '[]');
+                let recentActs = JSON.parse(localStorage.getItem('recentActivities')) || [];
                 recentActs.unshift(formDataObj);
-                recentActs = recentActs.slice(0, 5); // Keep only last 5
+                recentActs = recentActs.slice(0, 5);
                 localStorage.setItem('recentActivities', JSON.stringify(recentActs));
 
-                // Update dashboard and history
+                // Reset form
+                this.reset();
+                setCurrentDateTime();
+                resetTableRows();
+
+                // Update displays
                 updateDashboard();
                 updateHistory();
 
-                // Reset form mode
-                document.getElementById('formMode').value = 'add';
-                document.getElementById('editItemId').value = '';
-                document.getElementById('formTitle').textContent = 'Form Dokumentasi Tim Medis';
-                document.getElementById('submitBtn').textContent = 'Simpan Dokumentasi';
-                document.getElementById('cancelBtn').style.display = 'none';
-
-                // Reset form and set new date/time
-                this.reset();
-                setCurrentDateTime();
-
-                // Add default rows back
-                resetTableRows();
-
-                // Go to dashboard
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    if (link.getAttribute('data-target') === 'dashboard') {
-                        link.click();
-                    }
-                });
+                // Navigate to dashboard
+                document.querySelector('.nav-link[data-target="dashboard"]').click();
             });
 
             // Fix save changes button functionality
@@ -1935,12 +1949,13 @@
                         ]);
                     }
 
-                    // Fill signature data if exists
                     if (item.signaturePetugas) {
                         signaturePadPetugas.fromDataURL(item.signaturePetugas);
+                        localStorage.setItem('tempSignaturePetugas', item.signaturePetugas);
                     }
                     if (item.signatureKoordinator) {
                         signaturePadKoordinator.fromDataURL(item.signatureKoordinator);
+                        localStorage.setItem('tempSignatureKoordinator', item.signatureKoordinator);
                     }
 
                     // Fill names and NIMs
@@ -2072,8 +2087,14 @@
                 `;
 
                 // Clear signatures
-                if (signaturePadPetugas) signaturePadPetugas.clear();
-                if (signaturePadKoordinator) signaturePadKoordinator.clear();
+                if (signaturePadPetugas) {
+                    signaturePadPetugas.clear();
+                    localStorage.removeItem('tempSignaturePetugas');
+                }
+                if (signaturePadKoordinator) {
+                    signaturePadKoordinator.clear();
+                    localStorage.removeItem('tempSignatureKoordinator');
+                }
 
                 // Clear names and NIMs
                 document.getElementById('namaPetugas').value = '';
@@ -2104,7 +2125,7 @@
                     kendala: document.getElementById('kendala').value,
                     solusi: document.getElementById('solusi').value,
                     rekomendasi: document.getElementById('rekomendasi').value,
-                    
+
                     // Collect kasus data
                     kasus_nama: [],
                     kasus_waktu: [],
@@ -2112,27 +2133,27 @@
                     kasus_keluhan: [],
                     kasus_penanganan: [],
                     kasus_hasil: [],
-            
+
                     // Collect obat data
                     obat_nama: [],
                     obat_awal: [],
                     obat_terpakai: [],
                     obat_sisa: [],
                     obat_keterangan: [],
-            
+
                     // Collect perlengkapan data
                     perlengkapan_nama: [],
                     perlengkapan_awal: [],
                     perlengkapan_akhir: [],
                     perlengkapan_keterangan: [],
-            
+
                     // Collect rujukan data
                     rujukan_nama: [],
                     rujukan_alasan: [],
                     rujukan_tujuan: [],
                     rujukan_waktu: [],
                     rujukan_keterangan: [],
-            
+
                     // Get signatures and names
                     signaturePetugas: signaturePadPetugas.isEmpty() ? null : signaturePadPetugas.toDataURL(),
                     signatureKoordinator: signaturePadKoordinator.isEmpty() ? null : signaturePadKoordinator.toDataURL(),
@@ -2141,7 +2162,7 @@
                     namaKoordinator: document.getElementById('namaKoordinator').value,
                     nimKoordinator: document.getElementById('nimKoordinator').value
                 };
-            
+
                 // Collect table data
                 document.querySelectorAll('#dataKasusTable tbody tr').forEach(row => {
                     const cells = row.querySelectorAll('td');
@@ -2154,7 +2175,7 @@
                         formData.kasus_hasil.push(cells[6].querySelector('input').value);
                     }
                 });
-            
+
                 document.querySelectorAll('#penggunaanObatTable tbody tr').forEach(row => {
                     const cells = row.querySelectorAll('td');
                     if (cells[1].querySelector('input').value.trim() !== '') {
@@ -2165,7 +2186,7 @@
                         formData.obat_keterangan.push(cells[5].querySelector('input').value);
                     }
                 });
-            
+
                 document.querySelectorAll('#perlengkapanTable tbody tr').forEach(row => {
                     const cells = row.querySelectorAll('td');
                     if (cells[1].querySelector('input').value.trim() !== '') {
@@ -2175,7 +2196,7 @@
                         formData.perlengkapan_keterangan.push(cells[4].querySelector('input').value);
                     }
                 });
-            
+
                 document.querySelectorAll('#rujukanTable tbody tr').forEach(row => {
                     const cells = row.querySelectorAll('td');
                     if (cells[1].querySelector('input').value.trim() !== '') {
@@ -2186,7 +2207,7 @@
                         formData.rujukan_keterangan.push(cells[5].querySelector('input').value);
                     }
                 });
-            
+
                 // Generate PDF using the same function
                 generatePDFFromData(formData);
                 showToast('PDF berhasil diunduh', 'success');
@@ -2234,12 +2255,10 @@
                     recentActivities.innerHTML = '<div class="history-item">Belum ada aktivitas terbaru</div>';
                 } else {
                     recentActs.forEach(item => {
-                        const activityDate = formatDateIndonesia(item.date);
-                        const activityTime = formatTime(item.date);
+                        const activityDate = formatDateIndonesia(item.tanggal);
                         const div = document.createElement('div');
                         div.className = 'history-item';
-                        const action = item.action === 'delete' ? 'text-danger' : '';
-                        div.innerHTML = `<strong>${activityDate} ${activityTime}</strong> - ${item.petugas} ${item.actionText} kegiatan ${item.cabor} di ${item.lokasi}`;
+                        div.innerHTML = `<strong>${activityDate} ${item.waktu}</strong> - ${item.petugas} ${item.actionText} kegiatan ${item.cabor} di ${item.lokasi}`;
                         recentActivities.appendChild(div);
                     });
                 }
@@ -2250,61 +2269,66 @@
                 const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
                 const historyList = document.getElementById('history-list');
                 historyList.innerHTML = '';
-
+            
                 if (savedData.length === 0) {
                     historyList.innerHTML = '<div class="history-item">Belum ada riwayat dokumentasi</div>';
-                } else {
-                    savedData.reverse().forEach(item => {
-                        const historyDate = formatDateIndonesia(item.date);
-                        const div = document.createElement('div');
-                        div.className = 'history-item';
-                        div.innerHTML = `
-                            <h3>${item.cabor} - ${item.lokasi}</h3>
-                            <p><strong>Tanggal:</strong> ${historyDate} | <strong>Petugas:</strong> ${item.petugas}</p>
-                            <div class="history-actions">
-                                <button class="view-btn" data-id="${item.id}"><i class="fas fa-eye"></i> Lihat Detail</button>
-                                <button class="edit-btn" data-id="${item.id}"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="download-btn" data-id="${item.id}"><i class="fas fa-download"></i> Unduh PDF</button>
-                                <button class="delete-btn" data-id="${item.id}"><i class="fas fa-trash"></i> Hapus</button>
-                            </div>
-                        `;
-                        historyList.appendChild(div);
-                    });
-
-                    // Add event listeners to buttons
-                    document.querySelectorAll('.view-btn').forEach(button => {
-                        button.addEventListener('click', function () {
-                            const id = parseInt(this.getAttribute('data-id'));
-                            viewItemDetail(id);
-                        });
-                    });
-
-                    document.querySelectorAll('.edit-btn').forEach(button => {
-                        button.addEventListener('click', function () {
-                            const id = parseInt(this.getAttribute('data-id'));
-                            editItem(id);
-                        });
-                    });
-
-                    document.querySelectorAll('.download-btn').forEach(button => {
-                        button.addEventListener('click', function () {
-                            const id = parseInt(this.getAttribute('data-id'));
-                            const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
-                            const item = savedData.find(doc => doc.id === id);
-                            if (item) {
-                                generatePDFFromData(item);
-                                showToast('PDF berhasil diunduh', 'success');
-                            }
-                        });
-                    });
-
-                    document.querySelectorAll('.delete-btn').forEach(button => {
-                        button.addEventListener('click', function () {
-                            const id = parseInt(this.getAttribute('data-id'));
-                            confirmDeleteItem(id);
-                        });
-                    });
+                    return;
                 }
+            
+                // Sort data by date and time in descending order
+                const sortedData = [...savedData].sort((a, b) => {
+                    const dateA = new Date(a.tanggal + 'T' + a.waktu);
+                    const dateB = new Date(b.tanggal + 'T' + b.waktu);
+                    return dateB - dateA;
+                });
+            
+                // Create history items
+                sortedData.forEach(item => {
+                    const historyDate = formatDateIndonesia(item.tanggal);
+                    const div = document.createElement('div');
+                    div.className = 'history-item';
+                    div.innerHTML = `
+                        <h3>${item.cabor} - ${item.lokasi}</h3>
+                        <p><strong>Tanggal:</strong> ${historyDate} | <strong>Petugas:</strong> ${item.petugas}</p>
+                        <div class="history-actions">
+                            <button class="view-btn" data-id="${item.id}"><i class="fas fa-eye"></i> Lihat Detail</button>
+                            <button class="edit-btn" data-id="${item.id}"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="download-btn" data-id="${item.id}"><i class="fas fa-download"></i> Unduh PDF</button>
+                            <button class="delete-btn" data-id="${item.id}"><i class="fas fa-trash"></i> Hapus</button>
+                        </div>
+                    `;
+                    historyList.appendChild(div);
+                });
+            
+                // Add event listeners to buttons
+                document.querySelectorAll('.view-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        viewItemDetail(parseInt(this.dataset.id));
+                    });
+                });
+            
+                document.querySelectorAll('.edit-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        editItem(parseInt(this.dataset.id));
+                    });
+                });
+            
+                document.querySelectorAll('.download-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
+                        const item = sortedData.find(doc => doc.id === id);
+                        if (item) {
+                            generatePDFFromData(item);
+                            showToast('PDF berhasil diunduh', 'success');
+                        }
+                    });
+                });
+            
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        confirmDeleteItem(parseInt(this.dataset.id));
+                    });
+                });
             }
 
             // Function to view item detail in modal
@@ -2314,9 +2338,7 @@
 
                 if (item) {
                     const detailContent = document.getElementById('detailContent');
-
-                    // Format date
-                    const formattedDate = formatDateIndonesia(item.date);
+                    const formattedDate = formatDateIndonesia(item.tanggal);
 
                     let html = `
                         <div class="detail-header">
@@ -2559,7 +2581,7 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 let currentY = 0;
-            
+
                 // Set page margins (in mm)
                 const margin = {
                     left: 25,
@@ -2569,7 +2591,7 @@
                 const pageWidth = doc.internal.pageSize.width;
                 const pageHeight = doc.internal.pageSize.height;
                 const contentWidth = pageWidth - margin.left - margin.right;
-            
+
                 // Helper function to check page break
                 function checkNewPage(neededSpace = 20) {
                     if (currentY + neededSpace > pageHeight - margin.top) {
@@ -2579,24 +2601,24 @@
                     }
                     return false;
                 }
-            
+
                 // Set initial font
                 doc.setFont("times", "normal");
                 doc.setFontSize(16);
-            
+
                 // Header
                 currentY = margin.top;
                 doc.text("DOKUMENTASI & ADMINISTRASI TIM MEDIC", pageWidth / 2, currentY, { align: 'center' });
-                
+
                 // Basic information
                 doc.setFontSize(12);
                 currentY = margin.top + 20;
-            
+
                 // Form data with aligned layout
                 const labelPos = margin.left;
                 const colonPos = margin.left + 34;
                 const valuePos = margin.left + 40;
-            
+
                 function drawFormField(label, value, spacing = 8) {
                     checkNewPage(spacing);
                     doc.text(label, labelPos, currentY);
@@ -2604,17 +2626,17 @@
                     doc.text(value || "-", valuePos, currentY);
                     currentY += spacing;
                 }
-            
+
                 drawFormField("Nama Petugas", data.petugas);
-                drawFormField("Tanggal", data.tanggal);
+                drawFormField("Tanggal", formatDateIndonesia(data.tanggal));
                 drawFormField("Lokasi Kegiatan", data.lokasi);
                 drawFormField("Cabang Olahraga", data.cabor);
                 drawFormField("Waktu", data.waktu);
-            
+
                 // Data Kasus table
                 currentY += 5;
                 doc.text("DATA KASUS", margin.left, currentY);
-                
+
                 const kasusData = [];
                 if (Array.isArray(data.kasus_nama)) {
                     for (let i = 0; i < data.kasus_nama.length; i++) {
@@ -2631,7 +2653,7 @@
                         }
                     }
                 }
-            
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No', 'Waktu', 'Nama Pasien', 'JK', 'Keluhan', 'Penanganan', 'Hasil']],
@@ -2640,11 +2662,11 @@
                     styles: { font: 'times', fontSize: 10 },
                     margin: { left: margin.left, right: margin.right }
                 });
-            
+
                 // Penggunaan Obat table
                 currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("PENGGUNAAN OBAT & ALAT MEDIS", margin.left, currentY);
-            
+
                 const obatData = [];
                 if (Array.isArray(data.obat_nama)) {
                     for (let i = 0; i < data.obat_nama.length; i++) {
@@ -2660,7 +2682,7 @@
                         }
                     }
                 }
-            
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No', 'Nama Item', 'Jumlah Awal', 'Terpakai', 'Sisa', 'Keterangan']],
@@ -2669,11 +2691,11 @@
                     styles: { font: 'times', fontSize: 10 },
                     margin: { left: margin.left, right: margin.right }
                 });
-            
+
                 // Perlengkapan table
                 currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("CATATAN PERLENGKAPAN DAN ALAT MEDIS", margin.left, currentY);
-            
+
                 const perlengkapanData = [];
                 if (Array.isArray(data.perlengkapan_nama)) {
                     for (let i = 0; i < data.perlengkapan_nama.length; i++) {
@@ -2688,7 +2710,7 @@
                         }
                     }
                 }
-            
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No', 'Nama Perlengkapan', 'Kondisi Awal', 'Kondisi Akhir', 'Keterangan']],
@@ -2697,11 +2719,11 @@
                     styles: { font: 'times', fontSize: 10 },
                     margin: { left: margin.left, right: margin.right }
                 });
-            
+
                 // Rujukan table
                 currentY = doc.lastAutoTable.finalY + 10;
                 doc.text("RUJUKAN MEDIS", margin.left, currentY);
-            
+
                 const rujukanData = [];
                 if (Array.isArray(data.rujukan_nama)) {
                     for (let i = 0; i < data.rujukan_nama.length; i++) {
@@ -2717,7 +2739,7 @@
                         }
                     }
                 }
-            
+
                 doc.autoTable({
                     startY: currentY + 5,
                     head: [['No', 'Nama Pasien', 'Alasan', 'Tujuan', 'Waktu', 'Keterangan']],
@@ -2726,45 +2748,45 @@
                     styles: { font: 'times', fontSize: 10 },
                     margin: { left: margin.left, right: margin.right }
                 });
-            
+
                 // Evaluasi section
                 currentY = doc.lastAutoTable.finalY + 10;
                 checkNewPage(40);
                 doc.text("EVALUASI KEGIATAN", margin.left, currentY);
                 currentY += 10;
-            
+
                 // Kendala
                 doc.text("Kendala yang Dihadapi:", margin.left, currentY);
                 currentY += 7;
                 doc.text(data.kendala || "-", margin.left + 5, currentY);
                 currentY += 15;
-            
+
                 // Solusi
                 checkNewPage(30);
                 doc.text("Solusi yang Dilakukan:", margin.left, currentY);
                 currentY += 7;
                 doc.text(data.solusi || "-", margin.left + 5, currentY);
                 currentY += 15;
-            
+
                 // Rekomendasi
                 checkNewPage(30);
                 doc.text("Rekomendasi untuk Kegiatan Selanjutnya:", margin.left, currentY);
                 currentY += 7;
                 doc.text(data.rekomendasi || "-", margin.left + 5, currentY);
                 currentY += 20;
-            
+
                 // Check if new page needed for signatures
                 checkNewPage(60);
-            
+
                 // Signature section
                 currentY += 10;
                 const leftSignX = margin.left + 15;
                 const rightSignX = pageWidth - margin.right - 70;
-            
+
                 doc.text("Petugas Medis", leftSignX, currentY);
                 doc.text("Koordinator", rightSignX, currentY);
                 currentY += 10;
-            
+
                 // Add signatures
                 if (data.signaturePetugas) {
                     doc.addImage(data.signaturePetugas, 'PNG', margin.left, currentY, 70, 30);
@@ -2772,16 +2794,16 @@
                 if (data.signatureKoordinator) {
                     doc.addImage(data.signatureKoordinator, 'PNG', rightSignX - 15, currentY, 70, 30);
                 }
-            
+
                 // Add names and NIMs
                 currentY += 35;
-                doc.setFontSize(10);
+                doc.setFontSize(12);
                 doc.text(data.namaPetugas || "________________", leftSignX, currentY);
                 doc.text(data.namaKoordinator || "________________", rightSignX, currentY);
                 currentY += 5;
                 doc.text(data.nimPetugas ? `NIM: ${data.nimPetugas}` : "NIM: ____________", leftSignX, currentY);
                 doc.text(data.nimKoordinator ? `NIM: ${data.nimKoordinator}` : "NIM: ____________", rightSignX, currentY);
-            
+
                 // Save PDF
                 doc.save(`Dokumentasi_Tim_Medis_${data.tanggal}_${data.cabor}.pdf`);
             }
@@ -2800,7 +2822,6 @@
             const canvasPetugas = document.getElementById('signaturePadPetugas');
             const canvasKoordinator = document.getElementById('signaturePadKoordinator');
 
-            // Set canvas width and height based on container size
             function resizeCanvas(canvas) {
                 const ratio = Math.max(window.devicePixelRatio || 1, 1);
                 const container = canvas.parentElement;
@@ -2821,27 +2842,49 @@
                 backgroundColor: 'rgb(255, 255, 255)'
             });
 
+            // Auto-save signatures when drawn
+            signaturePadPetugas.addEventListener("endStroke", () => {
+                localStorage.setItem('tempSignaturePetugas', signaturePadPetugas.toDataURL());
+            });
+
+            signaturePadKoordinator.addEventListener("endStroke", () => {
+                localStorage.setItem('tempSignatureKoordinator', signaturePadKoordinator.toDataURL());
+            });
+
+            // Load saved temporary signatures if exist
+            const savedPetugasSignature = localStorage.getItem('tempSignaturePetugas');
+            const savedKoordinatorSignature = localStorage.getItem('tempSignatureKoordinator');
+
+            if (savedPetugasSignature) {
+                signaturePadPetugas.fromDataURL(savedPetugasSignature);
+            }
+            if (savedKoordinatorSignature) {
+                signaturePadKoordinator.fromDataURL(savedKoordinatorSignature);
+            }
+
             // Handle window resize
             window.addEventListener('resize', function () {
                 resizeCanvas(canvasPetugas);
                 resizeCanvas(canvasKoordinator);
 
-                // Redraw signatures if they exist
-                if (signaturePadPetugas.data) {
-                    signaturePadPetugas.fromData(signaturePadPetugas.data);
+                // Redraw signatures
+                if (savedPetugasSignature) {
+                    signaturePadPetugas.fromDataURL(savedPetugasSignature);
                 }
-                if (signaturePadKoordinator.data) {
-                    signaturePadKoordinator.fromData(signaturePadKoordinator.data);
+                if (savedKoordinatorSignature) {
+                    signaturePadKoordinator.fromDataURL(savedKoordinatorSignature);
                 }
             });
         }
 
-        // Clear signature
+        // Modify the clearSignature function:
         function clearSignature(type) {
             if (type === 'Petugas') {
                 signaturePadPetugas.clear();
+                localStorage.removeItem('tempSignaturePetugas');
             } else {
                 signaturePadKoordinator.clear();
+                localStorage.removeItem('tempSignatureKoordinator');
             }
         }
 
