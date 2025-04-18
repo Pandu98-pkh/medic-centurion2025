@@ -2074,3 +2074,42 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.insertAdjacentHTML('beforeend', modalHTML);
     }
 });
+
+// Add this CSS right after your existing modal-related CSS in the document
+document.addEventListener('DOMContentLoaded', function() {
+    // Add specific styling for the close button in modals
+    const style = document.createElement('style');
+    style.textContent = `
+        .modal-header .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            margin: 0;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+        
+        /* Make the button more touch-friendly but still compact */
+        @media screen and (max-width: 768px) {
+            .modal-header .close-modal {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                font-size: 20px;
+            }
+            
+            /* Make sure the modal header properly aligns items */
+            .modal-header {
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+});
