@@ -787,28 +787,35 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         // Validate form
-        if (!validateForm()) {
-            showToast('Mohon lengkapi data dengan benar', 'error');
-            return;
-        }
+    if (!validateForm()) {
+        showToast('Mohon lengkapi data dengan benar', 'error');
+        return;
+    }
 
-        // Get basic form data
-        const formDataObj = {
-            id: document.getElementById('formMode').value === 'edit' 
-                ? parseInt(document.getElementById('editItemId').value) 
-                : Date.now(),
-            petugas: document.getElementById('petugas').value,
-            tanggal: document.getElementById('tanggal').value,
-            lokasi: document.getElementById('lokasi').value,
-            cabor: document.getElementById('cabor').value,
-            waktu: document.getElementById('waktu').value,
-            kendala: document.getElementById('kendala').value,
-            solusi: document.getElementById('solusi').value,
-            rekomendasi: document.getElementById('rekomendasi').value,
-            date: new Date().toISOString(), // Add creation timestamp
-            action: document.getElementById('formMode').value === 'edit' ? 'edit' : 'add',
-            actionText: document.getElementById('formMode').value === 'edit' ? 'mengedit' : 'mendokumentasikan'
-        };
+    // Get and normalize cabor (make first letter of each word uppercase)
+    const caborInput = document.getElementById('cabor').value.trim();
+    const normalizedCabor = caborInput
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+
+    // Get basic form data
+    const formDataObj = {
+        id: document.getElementById('formMode').value === 'edit' 
+            ? parseInt(document.getElementById('editItemId').value) 
+            : Date.now(),
+        petugas: document.getElementById('petugas').value,
+        tanggal: document.getElementById('tanggal').value,
+        lokasi: document.getElementById('lokasi').value,
+        cabor: normalizedCabor, // Use normalized cabor value
+        waktu: document.getElementById('waktu').value,
+        kendala: document.getElementById('kendala').value,
+        solusi: document.getElementById('solusi').value,
+        rekomendasi: document.getElementById('rekomendasi').value,
+        date: new Date().toISOString(),
+        action: document.getElementById('formMode').value === 'edit' ? 'edit' : 'add',
+        actionText: document.getElementById('formMode').value === 'edit' ? 'mengedit' : 'mendokumentasikan'
+    };
 
         // Collect table data
         // Kasus data
@@ -1443,41 +1450,52 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update dashboard
     function updateDashboard() {
         const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
-
+    
         // Update total dokumentasi
         document.querySelector('.dashboard-card:nth-child(1) .card-value').textContent = savedData.length;
-
-        // Count today's cases from all kasus data
-        const today = new Date().toISOString().split('T')[0];
+    
+        // Count today's cases - ensure it resets daily by strictly comparing with current date
+        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
         let todayCasesCount = 0;
+        
         savedData.forEach(item => {
+            // Only count cases from today's date
             if (item.tanggal === today && Array.isArray(item.kasus_nama)) {
                 // Count non-empty kasus entries for today
                 todayCasesCount += item.kasus_nama.filter(nama => nama && nama.trim() !== '').length;
             }
         });
         document.querySelector('.dashboard-card:nth-child(2) .card-value').textContent = todayCasesCount;
-
+    
         // Count rujukan
         let rujukanCount = 0;
         savedData.forEach(item => {
             if (item.rujukan_nama && Array.isArray(item.rujukan_nama)) {
-                rujukanCount += item.rujukan_nama.filter(name => name.trim() !== '').length;
+                rujukanCount += item.rujukan_nama.filter(name => name && name.trim() !== '').length;
             }
         });
         document.querySelector('.dashboard-card:nth-child(3) .card-value').textContent = rujukanCount;
-
-        // Count unique cabang olahraga
-        const uniqueCabor = new Set(savedData.map(item => item.cabor));
+    
+        // Count unique cabang olahraga (normalize by trimming and converting to lowercase)
+        const uniqueCabor = new Set();
+        savedData.forEach(item => {
+            if (item.cabor && typeof item.cabor === 'string') {
+                // Normalize cabor by trimming and converting to lowercase
+                const normalizedCabor = item.cabor.trim().toLowerCase();
+                if (normalizedCabor) {
+                    uniqueCabor.add(normalizedCabor);
+                }
+            }
+        });
         document.querySelector('.dashboard-card:nth-child(4) .card-value').textContent = uniqueCabor.size;
-
+    
         // Update recent activities
         const recentActivities = document.getElementById('recent-activities');
         recentActivities.innerHTML = '';
-
+    
         // Get recent activities
         const recentActs = JSON.parse(localStorage.getItem('recentActivities') || '[]');
-
+    
         if (recentActs.length === 0) {
             recentActivities.innerHTML = '<div class="history-item">Belum ada aktivitas terbaru</div>';
         } else {
