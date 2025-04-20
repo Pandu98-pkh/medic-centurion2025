@@ -2131,3 +2131,9 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 });
+
+// Set the copyright year to the current year
+document.addEventListener('DOMContentLoaded', function() {
+    const currentYear = new Date().getFullYear();
+    document.getElementById('copyright').innerHTML = `&copy; ${currentYear} PANDU KAYA HAKIKI. All rights reserved.`;
+});
