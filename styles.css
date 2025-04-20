@@ -908,7 +908,7 @@ h2 i, h3 i {
 
 /* Detail modal styling - wider and more spacious */
 #detailModal .modal {
-  max-width: 800px; /* Increased from 600px */
+  max-width: 70%; /* Increased from 600px */
   width: 95%;
 }
 
