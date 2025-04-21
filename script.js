@@ -588,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update signature sections in the form
     const signatureSectionPetugas = document.querySelector('.signature-section:nth-child(1)');
     const signatureSectionKoordinator = document.querySelector('.signature-section:nth-child(2)');
-    
+
     // Modify the petugas signature section
     signatureSectionPetugas.innerHTML = `
         <h4>Tanda Tangan Petugas Medis</h4>
@@ -609,7 +609,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <input type="hidden" id="signatureDataPetugas" name="signatureDataPetugas">
         <input type="hidden" id="signatureFilenamePetugas" name="signatureFilenamePetugas">
     `;
-    
+
     // Modify the koordinator signature section
     signatureSectionKoordinator.innerHTML = `
         <h4>Tanda Tangan Koordinator</h4>
@@ -653,7 +653,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         const context = canvasModal.getContext("2d");
-        
+
         // Get parent width
         const width = canvasModal.parentElement.offsetWidth;
         const height = 200;
@@ -663,19 +663,19 @@ document.addEventListener('DOMContentLoaded', function () {
         canvasModal.height = height * ratio;
         canvasModal.style.width = width + "px";
         canvasModal.style.height = height + "px";
-        
+
         // Scale context for high DPI display
         context.scale(ratio, ratio);
     }
 
     // Open signature modal
     document.querySelectorAll('.open-signature-modal').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             currentSignatureType = this.getAttribute('data-type');
-            
+
             // Set modal title
             document.getElementById('signatureModalTitle').textContent = `Tanda Tangan ${currentSignatureType}`;
-            
+
             // Initialize modal if not done yet
             if (!signaturePadModal) {
                 initSignatureModal();
@@ -683,42 +683,42 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Clear the canvas
                 signaturePadModal.clear();
             }
-            
+
             // Check if we have an existing signature to edit
             const existingSignatureData = document.getElementById(`signatureData${currentSignatureType}`).value;
             if (existingSignatureData) {
                 signaturePadModal.fromDataURL(existingSignatureData);
             }
-            
+
             // Open the modal
             openModal('signatureModal');
-            
+
             // Resize canvas to ensure correct display
             setTimeout(resizeModalCanvas, 100);
         });
     });
 
     // Clear signature in modal
-    document.getElementById('clearModalSignature').addEventListener('click', function() {
+    document.getElementById('clearModalSignature').addEventListener('click', function () {
         if (signaturePadModal) {
             signaturePadModal.clear();
         }
     });
 
     // Cancel signature
-    document.getElementById('cancelSignature').addEventListener('click', function() {
+    document.getElementById('cancelSignature').addEventListener('click', function () {
         closeModal(document.getElementById('signatureModal'));
     });
 
     // Save signature
-    document.getElementById('saveSignature').addEventListener('click', function() {
+    document.getElementById('saveSignature').addEventListener('click', function () {
         if (!signaturePadModal || signaturePadModal.isEmpty()) {
             showToast('Harap buat tanda tangan terlebih dahulu', 'error');
             return;
         }
-        
+
         const signatureData = signaturePadModal.toDataURL();
-        
+
         // Get name for filename
         let nama = '';
         if (currentSignatureType === 'Petugas') {
@@ -726,37 +726,37 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             nama = document.getElementById('namaKoordinator').value || 'Koordinator';
         }
-        
+
         // Format: nama_tanggal_waktu
         const now = new Date();
         const tanggal = now.toISOString().split('T')[0].replace(/-/g, '');
         const waktu = `${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
         const filename = `${nama}_${tanggal}_${waktu}`;
-        
+
         // Save to hidden fields
         document.getElementById(`signatureData${currentSignatureType}`).value = signatureData;
         document.getElementById(`signatureFilename${currentSignatureType}`).value = filename;
-        
+
         // Update preview
         const previewElement = document.getElementById(`signaturePreview${currentSignatureType}`);
         previewElement.innerHTML = `<img src="${signatureData}" style="max-width: 100%; max-height: 100px;">`;
-        
+
         closeModal(document.getElementById('signatureModal'));
         showToast('Tanda tangan berhasil disimpan', 'success');
     });
 
     // Window resize handler for modal canvas
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         if (document.getElementById('signatureModal').classList.contains('active')) {
             // Save current signature
             let signatureData = null;
             if (signaturePadModal && !signaturePadModal.isEmpty()) {
                 signatureData = signaturePadModal.toDataURL();
             }
-            
+
             // Resize canvas
             resizeModalCanvas();
-            
+
             // Restore signature if there was one
             if (signatureData && signaturePadModal) {
                 signaturePadModal.fromDataURL(signatureData);
@@ -765,18 +765,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Add touch event handlers to prevent scrolling on signature canvas
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const canvasModal = document.getElementById('signatureModalCanvas');
         if (canvasModal) {
-            canvasModal.addEventListener('touchstart', function(e) {
+            canvasModal.addEventListener('touchstart', function (e) {
                 e.preventDefault();
             });
-            
-            canvasModal.addEventListener('touchmove', function(e) {
+
+            canvasModal.addEventListener('touchmove', function (e) {
                 e.preventDefault();
             });
-            
-            canvasModal.addEventListener('touchend', function(e) {
+
+            canvasModal.addEventListener('touchend', function (e) {
                 e.preventDefault();
             });
         }
@@ -787,35 +787,35 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         // Validate form
-    if (!validateForm()) {
-        showToast('Mohon lengkapi data dengan benar', 'error');
-        return;
-    }
+        if (!validateForm()) {
+            showToast('Mohon lengkapi data dengan benar', 'error');
+            return;
+        }
 
-    // Get and normalize cabor (make first letter of each word uppercase)
-    const caborInput = document.getElementById('cabor').value.trim();
-    const normalizedCabor = caborInput
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ');
+        // Get and normalize cabor (make first letter of each word uppercase)
+        const caborInput = document.getElementById('cabor').value.trim();
+        const normalizedCabor = caborInput
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
 
-    // Get basic form data
-    const formDataObj = {
-        id: document.getElementById('formMode').value === 'edit' 
-            ? parseInt(document.getElementById('editItemId').value) 
-            : Date.now(),
-        petugas: document.getElementById('petugas').value,
-        tanggal: document.getElementById('tanggal').value,
-        lokasi: document.getElementById('lokasi').value,
-        cabor: normalizedCabor, // Use normalized cabor value
-        waktu: document.getElementById('waktu').value,
-        kendala: document.getElementById('kendala').value,
-        solusi: document.getElementById('solusi').value,
-        rekomendasi: document.getElementById('rekomendasi').value,
-        date: new Date().toISOString(),
-        action: document.getElementById('formMode').value === 'edit' ? 'edit' : 'add',
-        actionText: document.getElementById('formMode').value === 'edit' ? 'mengedit' : 'mendokumentasikan'
-    };
+        // Get basic form data
+        const formDataObj = {
+            id: document.getElementById('formMode').value === 'edit'
+                ? parseInt(document.getElementById('editItemId').value)
+                : Date.now(),
+            petugas: document.getElementById('petugas').value,
+            tanggal: document.getElementById('tanggal').value,
+            lokasi: document.getElementById('lokasi').value,
+            cabor: normalizedCabor, // Use normalized cabor value
+            waktu: document.getElementById('waktu').value,
+            kendala: document.getElementById('kendala').value,
+            solusi: document.getElementById('solusi').value,
+            rekomendasi: document.getElementById('rekomendasi').value,
+            date: new Date().toISOString(),
+            action: document.getElementById('formMode').value === 'edit' ? 'edit' : 'add',
+            actionText: document.getElementById('formMode').value === 'edit' ? 'mengedit' : 'mendokumentasikan'
+        };
 
         // Collect table data
         // Kasus data
@@ -1176,17 +1176,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('signatureDataPetugas').value = item.signaturePetugas;
                 document.getElementById('signaturePreviewPetugas').innerHTML = `<img src="${item.signaturePetugas}" style="max-width: 100%; max-height: 100px;">`;
             }
-            
+
             if (item.signatureKoordinator) {
                 document.getElementById('signatureDataKoordinator').value = item.signatureKoordinator;
                 document.getElementById('signaturePreviewKoordinator').innerHTML = `<img src="${item.signatureKoordinator}" style="max-width: 100%; max-height: 100px;">`;
             }
-            
+
             // Set filenames if they exist
             if (item.signatureFilenamePetugas) {
                 document.getElementById('signatureFilenamePetugas').value = item.signatureFilenamePetugas;
             }
-            
+
             if (item.signatureFilenameKoordinator) {
                 document.getElementById('signatureFilenameKoordinator').value = item.signatureFilenameKoordinator;
             }
@@ -1225,12 +1225,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check signatures
         const signatureDataPetugas = document.getElementById('signatureDataPetugas').value;
         const signatureDataKoordinator = document.getElementById('signatureDataKoordinator').value;
-        
+
         if (!signatureDataPetugas) {
             showToast('Tanda tangan Petugas Medis diperlukan', 'error');
             return false;
         }
-        
+
         if (!signatureDataKoordinator) {
             showToast('Tanda tangan Koordinator diperlukan', 'error');
             return false;
@@ -1329,7 +1329,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('signatureDataKoordinator').value = '';
         document.getElementById('signatureFilenamePetugas').value = '';
         document.getElementById('signatureFilenameKoordinator').value = '';
-        
+
         // Clear names and NIMs
         document.getElementById('namaPetugas').value = '';
         document.getElementById('nimPetugas').value = '';
@@ -1447,26 +1447,24 @@ document.addEventListener('DOMContentLoaded', function () {
         showToast('PDF berhasil diunduh', 'success');
     });
 
-    // Update dashboard
+    // Modify your updateDashboard function to include the chart generation
     function updateDashboard() {
         const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
-    
+
         // Update total dokumentasi
         document.querySelector('.dashboard-card:nth-child(1) .card-value').textContent = savedData.length;
-    
-        // Count today's cases - ensure it resets daily by strictly comparing with current date
-        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+        // Count today's cases from all kasus data
+        const today = new Date().toISOString().split('T')[0];
         let todayCasesCount = 0;
-        
         savedData.forEach(item => {
-            // Only count cases from today's date
             if (item.tanggal === today && Array.isArray(item.kasus_nama)) {
                 // Count non-empty kasus entries for today
                 todayCasesCount += item.kasus_nama.filter(nama => nama && nama.trim() !== '').length;
             }
         });
         document.querySelector('.dashboard-card:nth-child(2) .card-value').textContent = todayCasesCount;
-    
+
         // Count rujukan
         let rujukanCount = 0;
         savedData.forEach(item => {
@@ -1475,12 +1473,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         document.querySelector('.dashboard-card:nth-child(3) .card-value').textContent = rujukanCount;
-    
-        // Count unique cabang olahraga (normalize by trimming and converting to lowercase)
+
+        // Count unique cabang olahraga
         const uniqueCabor = new Set();
         savedData.forEach(item => {
             if (item.cabor && typeof item.cabor === 'string') {
-                // Normalize cabor by trimming and converting to lowercase
                 const normalizedCabor = item.cabor.trim().toLowerCase();
                 if (normalizedCabor) {
                     uniqueCabor.add(normalizedCabor);
@@ -1488,14 +1485,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         document.querySelector('.dashboard-card:nth-child(4) .card-value').textContent = uniqueCabor.size;
-    
+
         // Update recent activities
         const recentActivities = document.getElementById('recent-activities');
         recentActivities.innerHTML = '';
-    
+
         // Get recent activities
         const recentActs = JSON.parse(localStorage.getItem('recentActivities') || '[]');
-    
+
         if (recentActs.length === 0) {
             recentActivities.innerHTML = '<div class="history-item">Belum ada aktivitas terbaru</div>';
         } else {
@@ -1507,6 +1504,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 recentActivities.appendChild(div);
             });
         }
+
+        // Generate the chart (after a small delay to ensure DOM is ready)
+        setTimeout(generateDailyChart, 100);
     }
 
     // Update history
@@ -1514,19 +1514,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
         const historyList = document.getElementById('history-list');
         historyList.innerHTML = '';
-    
+
         if (savedData.length === 0) {
             historyList.innerHTML = '<div class="history-item">Belum ada riwayat dokumentasi</div>';
             return;
         }
-    
+
         // Sort data by date and time in descending order
         const sortedData = [...savedData].sort((a, b) => {
             const dateA = new Date(a.tanggal + 'T' + a.waktu);
             const dateB = new Date(b.tanggal + 'T' + b.waktu);
             return dateB - dateA;
         });
-    
+
         // Create history items
         sortedData.forEach(item => {
             const historyDate = formatDateIndonesia(item.tanggal);
@@ -1544,22 +1544,22 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             historyList.appendChild(div);
         });
-    
+
         // Add event listeners to buttons
         document.querySelectorAll('.view-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 viewItemDetail(parseInt(this.dataset.id));
             });
         });
-    
+
         document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 editItem(parseInt(this.dataset.id));
             });
         });
-    
+
         document.querySelectorAll('.download-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const id = parseInt(this.dataset.id);
                 const item = sortedData.find(doc => doc.id === id);
                 if (item) {
@@ -1568,9 +1568,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         });
-    
+
         document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 confirmDeleteItem(parseInt(this.dataset.id));
             });
         });
@@ -1760,7 +1760,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     '<p>Tidak ada tanda tangan</p>'}
                         <p><strong>Nama:</strong> ${item.namaPetugas || '-'}</p>
                         <p><strong>NIM:</strong> ${item.nimPetugas || '-'}</p>
-                        ${item.signatureFilenamePetugas ? 
+                        ${item.signatureFilenamePetugas ?
                     `<p><strong>File:</strong> ${item.signatureFilenamePetugas}</p>` : ''}
                     </div>
                     <div style="flex: 1; min-width: 200px;">
@@ -1770,7 +1770,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     '<p>Tidak ada tanda tangan</p>'}
                         <p><strong>Nama:</strong> ${item.namaKoordinator || '-'}</p>
                         <p><strong>NIM:</strong> ${item.nimKoordinator || '-'}</p>
-                        ${item.signatureFilenameKoordinator ? 
+                        ${item.signatureFilenameKoordinator ?
                     `<p><strong>File:</strong> ${item.signatureFilenameKoordinator}</p>` : ''}
                     </div>
                 </div>
@@ -2062,7 +2062,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Create signature modal HTML
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Append the signature modal HTML if it doesn't exist
     if (!document.getElementById('signatureModal')) {
         const modalHTML = `
@@ -2088,13 +2088,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         </div>`;
-        
+
         document.body.insertAdjacentHTML('beforeend', modalHTML);
     }
 });
 
 // Add this CSS right after your existing modal-related CSS in the document
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Add specific styling for the close button in modals
     const style = document.createElement('style');
     style.textContent = `
@@ -2133,7 +2133,178 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Set the copyright year to the current year
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const currentYear = new Date().getFullYear();
     document.getElementById('copyright').innerHTML = `&copy; ${currentYear} PANDU KAYA HAKIKI. All rights reserved.`;
+});
+
+// Add this function to your JavaScript file
+function generateDailyChart() {
+    // Check if Chart.js is loaded
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js library not loaded');
+        return;
+    }
+    
+    // Check if canvas exists
+    const canvas = document.getElementById('casesChart');
+    if (!canvas) {
+        console.error('Canvas element for chart not found');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    const savedData = JSON.parse(localStorage.getItem('medicalDocuments')) || [];
+    
+    // Extract only dates that have actual data
+    const casesByDate = {};
+    
+    // Collect all dates with data
+    savedData.forEach(item => {
+        if (item.tanggal && Array.isArray(item.kasus_nama)) {
+            const casesCount = item.kasus_nama.filter(nama => nama && nama.trim() !== '').length;
+            if (casesCount > 0) {
+                // If this date already exists, add to its count
+                if (casesByDate[item.tanggal]) {
+                    casesByDate[item.tanggal] += casesCount;
+                } else {
+                    casesByDate[item.tanggal] = casesCount;
+                }
+            }
+        }
+    });
+    
+    // Convert to array of [date, count] pairs and sort by date
+    const dateEntries = Object.entries(casesByDate)
+        .sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    
+    // If no data, show a message instead of an empty chart
+    if (dateEntries.length === 0) {
+        // Display a message in the chart container
+        const chartContainer = document.querySelector('.chart-container');
+        if (chartContainer) {
+            chartContainer.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: #666; font-style: italic;">
+                    <p>Belum ada data kasus untuk ditampilkan</p>
+                </div>
+            `;
+        }
+        return;
+    }
+    
+    // Prepare data for chart
+    const dates = dateEntries.map(entry => entry[0]);
+    const chartData = dateEntries.map(entry => entry[1]);
+    
+    // Format date labels as DD/MM
+    const labels = dates.map(dateStr => {
+        const date = new Date(dateStr);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        return `${day}/${month}`;
+    });
+    
+    console.log('Chart data:', {dates, labels, chartData}); // Debug output
+    
+    try {
+        // Clear previous chart if it exists
+        if (window.casesChartInstance) {
+            window.casesChartInstance.destroy();
+        }
+        
+        // Create chart
+        window.casesChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Kasus',
+                    data: chartData,
+                    backgroundColor: 'rgba(26, 159, 178, 0.2)',
+                    borderColor: '#1A9FB2',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#1A9FB2',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#1A9FB2',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleFont: {
+                            size: 14
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                return `Jumlah Kasus: ${context.parsed.y}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        console.log('Chart successfully created');
+    } catch (error) {
+        console.error('Error creating chart:', error);
+    }
+}
+
+// Make sure chart is re-generated when switching to dashboard tab
+document.addEventListener('DOMContentLoaded', function() {
+    const dashboardLink = document.querySelector('.nav-link[data-target="dashboard"]');
+    if (dashboardLink) {
+        dashboardLink.addEventListener('click', function() {
+            // Slight delay to ensure the dashboard is visible
+            setTimeout(generateDailyChart, 100);
+        });
+    }
+});
+
+// Directly after the DOM content loaded event
+document.addEventListener('DOMContentLoaded', function() {
+    // Test if Chart.js is loaded
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js is not loaded. Loading it now...');
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+        script.onload = function() {
+            console.log('Chart.js loaded successfully');
+            // Initialize once loaded
+            updateDashboard();
+        };
+        document.head.appendChild(script);
+    } else {
+        console.log('Chart.js already loaded');
+    }
 });
