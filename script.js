@@ -2204,15 +2204,13 @@ function generateDailyChart() {
         return `${day}/${month}`;
     });
     
-    console.log('Chart data:', {dates, labels, chartData}); // Debug output
-    
     try {
         // Clear previous chart if it exists
         if (window.casesChartInstance) {
             window.casesChartInstance.destroy();
         }
         
-        // Create chart
+        // Create chart with improved configuration for fitting content
         window.casesChartInstance = new Chart(ctx, {
             type: 'line',
             data: {
@@ -2236,6 +2234,14 @@ function generateDailyChart() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25, // Extra padding on right for labels
+                        top: 10,
+                        bottom: 10
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false
@@ -2260,7 +2266,10 @@ function generateDailyChart() {
                         beginAtZero: true,
                         ticks: {
                             stepSize: 1,
-                            precision: 0
+                            precision: 0,
+                            font: {
+                                size: 11 // Smaller font for Y axis
+                            }
                         },
                         grid: {
                             color: 'rgba(0, 0, 0, 0.05)'
@@ -2269,16 +2278,48 @@ function generateDailyChart() {
                     x: {
                         grid: {
                             display: false
+                        },
+                        ticks: {
+                            maxRotation: 45, // Rotate labels if needed
+                            minRotation: 0,
+                            font: {
+                                size: 11 // Smaller font for X axis
+                            },
+                            autoSkip: true,
+                            maxTicksLimit: 10 // Limit number of ticks to prevent overcrowding
                         }
                     }
                 }
             }
         });
-        console.log('Chart successfully created');
     } catch (error) {
         console.error('Error creating chart:', error);
     }
 }
+
+// Add improved CSS for the chart container
+const style = document.createElement('style');
+style.textContent = `
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        overflow: hidden; /* Prevent overflow */
+    }
+    
+    @media screen and (max-width: 768px) {
+        .chart-container {
+            height: 250px;
+            padding: 5px;
+        }
+    }
+`;
+document.head.appendChild(style);
 
 // Make sure chart is re-generated when switching to dashboard tab
 document.addEventListener('DOMContentLoaded', function() {
